@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="128" height="80"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="raw_1494483718" translatesAutoresizingMaskIntoConstraints="NO" id="ik3-Bc-jGK">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ik3-Bc-jGK">
                         <rect key="frame" x="0.0" y="0.0" width="128" height="80"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -29,7 +29,4 @@
             </connections>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="raw_1494483718" width="520" height="328"/>
-    </resources>
 </document>

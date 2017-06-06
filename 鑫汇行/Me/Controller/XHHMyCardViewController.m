@@ -21,6 +21,7 @@
     UIView *view1;
     UIView *view2;
     NSString *bankStr;
+    NSString *bank_id;
     UITextField *text1;
     UITextField *text2;
     
@@ -100,7 +101,9 @@
             bankcard.text = dic[@"bankcard"];
             bankbranch.text = dic[@"bank_branch"];
             bankName.text = dic[@"bank_name"];
-            province.text = dic[@"province"];
+            province.text = [NSString stringWithFormat:@"%@%@",dic[@"province"],dic[@"city"]];
+            text1.text = dic[@"province"];
+            text2.text = dic[@"city"];
             cardid = dic[@"id"];
             userName.enabled = NO;
             IDcard.enabled = NO;
@@ -553,8 +556,9 @@
     params[@"name"] = userName.text;
     params[@"icard"] = IDcard.text;
     params[@"bankcard"] = @(bankcard.text.integerValue);
-    params[@"bank_name"] = bankName.text;
-    params[@"province"] = [NSString stringWithFormat:@"%@省%@市",text1.text,text2.text];
+    params[@"bank_id"] = @(bank_id.integerValue);
+    params[@"province"] = [NSString stringWithFormat:@"%@",text1.text];
+    params[@"city"] = [NSString stringWithFormat:@"%@",text2.text];
     params[@"bank_branch"] = bankbranch.text;
     params[@"do"] = @(3);
     params[@"card_id"] = @(cardid.integerValue);
@@ -597,15 +601,26 @@
 -(void)openBank{
     NSLog(@"mmmmmm");
 //    [self setBankView];
-    [self setPickerView];
-    
+   
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1020",XHHBaseUrl];
+    [LhkhHttpsManager requestWithURLString:url parameters:nil type:1 success:^(id responseObject) {
+        NSLog(@"-----bank=%@",responseObject);
+        bankArr = [NSMutableArray array];
+        NSArray *arr = responseObject[@"list"];
+        [bankArr addObjectsFromArray:arr];
+        [self setPickerView];
+    } failure:^(NSError *error) {
+        [self closeLoadingView];
+        NSString *str = [NSString stringWithFormat:@"%@",error];
+        [MBProgressHUD show:str view:self.view];
+    }];
 }
 
 
 -(void)setBankView{
-    bankArr = [NSMutableArray array];
-    NSArray *arr = @[@"中国银行",@"中国农业银行",@"中国建设银行",@"中国交通银行",@"中国交通银行",@"中国交通银行",@"中国交通银行",@"中国交通银行",@"中国交通银行"];
-    [bankArr addObjectsFromArray:arr];
+    
+//    NSArray *arr = @[@"中国银行",@"中国农业银行",@"中国建设银行",@"中国交通银行",@"中国交通银行",@"中国交通银行",@"中国交通银行",@"中国交通银行",@"中国交通银行"];
+    
     bankview = [[UIView alloc] initWithFrame:CGRectMake(view1.frame.origin.x, 210, view1.frame.size.width, 120)];
     [self.view addSubview:bankview];
     
@@ -645,9 +660,9 @@
 }
 
 -(void)setPickerView{
-    bankArr = [NSMutableArray array];
-    NSArray *arr = @[@"中国银行",@"中国农业银行",@"中国建设银行",@"中国交通银行",@"中国交通银行",@"中国交通银行",@"中国交通银行",@"中国交通银行",@"中国交通银行"];
-    [bankArr addObjectsFromArray:arr];
+//    bankArr = [NSMutableArray array];
+//    NSArray *arr = @[@"中国银行",@"中国农业银行",@"中国建设银行",@"中国交通银行",@"中国交通银行",@"中国交通银行",@"中国交通银行",@"中国交通银行",@"中国交通银行"];
+//    [bankArr addObjectsFromArray:arr];
     _pickerRootView = [[UIView alloc] initWithFrame:CGRectZero];
     _pickerRootView.hidden = _blackView.hidden = NO;
     [self.view addSubview:_pickerRootView];
@@ -727,11 +742,12 @@
 
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return [NSString stringWithFormat:@"%@",bankArr[row]];
+    return [NSString stringWithFormat:@"%@",bankArr[row][@"name"]];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    bankStr = bankArr[row];
+    bankStr = bankArr[row][@"name"];
+    bank_id = bankArr[row][@"bank_id"];
 }
 
 - (void)didReceiveMemoryWarning {

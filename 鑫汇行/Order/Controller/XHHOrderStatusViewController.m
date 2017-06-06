@@ -99,6 +99,7 @@
         [self.tableView reloadData];
         
     } failure:^(NSError *error) {
+        [self.tableView.mj_header endRefreshing];
         NSString *str = [NSString stringWithFormat:@"%@",error];
         NSLog(@"----%@",str);
         [MBProgressHUD show:str view:self.view];
@@ -130,6 +131,7 @@
         }
         [self.tableView reloadData];
     } failure:^(NSError *error) {
+        [self.tableView.mj_header endRefreshing];
         if (self.params != params) return;
         NSString *str = [NSString stringWithFormat:@"%@",error];
         NSLog(@"----%@",str);

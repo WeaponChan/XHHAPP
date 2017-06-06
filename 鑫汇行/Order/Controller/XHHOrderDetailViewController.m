@@ -19,6 +19,7 @@
 #import "MBProgressHUD+Add.h"
 #import "XHHOrderDetailModel.h"
 #import "XHHInspectImage.h"
+#import "UIImageView+WebCache.h"
 @interface XHHOrderDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic, strong) NSDictionary *params;
@@ -31,6 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"订单详情";
+    self.userPicsArr = [NSArray array];
     [self setTableView];
 }
 -(void)setTableView{
@@ -168,13 +170,14 @@
         [cell.applyImgCollectionView registerNib:[UINib  nibWithNibName:@"XHHOrderDetailCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"XHHOrderDetailCollectionViewCell"];
         cell.applyImgCollectionView.delegate = self;
         cell.applyImgCollectionView.dataSource = self;
+        [cell.applyImgCollectionView reloadData];
         return cell;
     }
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 2) {
-        return 280;
+        return ((self.userPicsArr.count +1)/2)*90 +((self.userPicsArr.count+1)/2)*30;
     }else{
         return 44;
     }
@@ -189,11 +192,13 @@
 
 #pragma mark - UICollectionViewDataSource
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 3;
+    return self.userPicsArr.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     XHHOrderDetailCollectionViewCell *cell = (XHHOrderDetailCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"XHHOrderDetailCollectionViewCell" forIndexPath:indexPath];
+    NSDictionary *dic = self.userPicsArr[indexPath.row];
+    [cell.orderDetailImg sd_setImageWithURL:[NSURL URLWithString:dic[@"pic"]] placeholderImage:[UIImage imageNamed:@"default"]];
     return cell;
     
 }
@@ -201,8 +206,11 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"----->%ld",indexPath.row);
-    XHHOrderDetailCollectionViewCell *cell = (XHHOrderDetailCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"XHHOrderDetailCollectionViewCell" forIndexPath:indexPath];
-    [XHHInspectImage showImage:cell.orderDetailImg];
+//    XHHOrderDetailCollectionViewCell *cell = (XHHOrderDetailCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"XHHOrderDetailCollectionViewCell" forIndexPath:indexPath];
+    NSDictionary *dic = self.userPicsArr[indexPath.row];
+    UIImageView *image = [[UIImageView alloc] init];
+    [image sd_setImageWithURL:[NSURL URLWithString:dic[@"pic"]] placeholderImage:[UIImage imageNamed:@"default"]];
+    [XHHInspectImage showImage:image];
 }
 #pragma mark - UICollectionViewDelegateFlowLayout
 
@@ -213,7 +221,7 @@
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     
-    return UIEdgeInsetsMake(20, 20, 20, 20);
+    return UIEdgeInsetsMake(20, 30, 20, 30);
 }
 
 
