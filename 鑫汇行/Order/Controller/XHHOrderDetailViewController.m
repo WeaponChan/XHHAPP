@@ -177,7 +177,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 2) {
-        return ((self.userPicsArr.count +1)/2)*90 +((self.userPicsArr.count+1)/2)*30;
+        return ((self.userPicsArr.count +1)/2)*((ScreenWidth-90)/2.4) +((self.userPicsArr.count+1)/2)*35;
     }else{
         return 44;
     }
@@ -199,6 +199,7 @@
     XHHOrderDetailCollectionViewCell *cell = (XHHOrderDetailCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"XHHOrderDetailCollectionViewCell" forIndexPath:indexPath];
     NSDictionary *dic = self.userPicsArr[indexPath.row];
     [cell.orderDetailImg sd_setImageWithURL:[NSURL URLWithString:dic[@"pic"]] placeholderImage:[UIImage imageNamed:@"default"]];
+    cell.imgLab.text = dic[@"name"];
     return cell;
     
 }
@@ -216,7 +217,7 @@
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     float width = ((ScreenWidth-90)/2);
-    return CGSizeMake(width, width/1.6f);
+    return CGSizeMake(width, width/1.2f);
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {

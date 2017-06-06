@@ -6,25 +6,44 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="XHHOrderDetailCollectionViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="128" height="80"/>
+            <rect key="frame" x="0.0" y="0.0" width="128" height="100"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="128" height="80"/>
+                <rect key="frame" x="0.0" y="0.0" width="128" height="100"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ik3-Bc-jGK">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ik3-Bc-jGK">
                         <rect key="frame" x="0.0" y="0.0" width="128" height="80"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="ik3-Bc-jGK" secondAttribute="height" multiplier="8:5" id="u8c-BZ-vAD"/>
+                        </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="广大坚实的" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zy6-eI-F4B">
+                        <rect key="frame" x="0.0" y="85" width="128" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
+            <constraints>
+                <constraint firstItem="ik3-Bc-jGK" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="09A-Pu-YaB"/>
+                <constraint firstItem="Zy6-eI-F4B" firstAttribute="top" secondItem="ik3-Bc-jGK" secondAttribute="bottom" constant="5" id="BEi-3H-92e"/>
+                <constraint firstAttribute="bottom" secondItem="Zy6-eI-F4B" secondAttribute="bottom" id="C4v-u2-O9E"/>
+                <constraint firstItem="ik3-Bc-jGK" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="TNW-Uk-dej"/>
+                <constraint firstAttribute="trailing" secondItem="ik3-Bc-jGK" secondAttribute="trailing" id="UOR-MF-cQE"/>
+                <constraint firstItem="Zy6-eI-F4B" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="hD7-5k-KXL"/>
+                <constraint firstAttribute="trailing" secondItem="Zy6-eI-F4B" secondAttribute="trailing" id="xfL-J4-fT4"/>
+            </constraints>
             <connections>
+                <outlet property="imgLab" destination="Zy6-eI-F4B" id="hwC-zK-zRm"/>
                 <outlet property="orderDetailImg" destination="ik3-Bc-jGK" id="o7k-ZU-9at"/>
             </connections>
         </collectionViewCell>

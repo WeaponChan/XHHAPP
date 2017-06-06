@@ -10,5 +10,6 @@
 
 @interface XHHOrderDetailCollectionViewCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *orderDetailImg;
+@property (weak, nonatomic) IBOutlet UILabel *imgLab;
 
 @end
