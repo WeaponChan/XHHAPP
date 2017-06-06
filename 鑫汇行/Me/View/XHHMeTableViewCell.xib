@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="XHHMeTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bankCard" translatesAutoresizingMaskIntoConstraints="NO" id="vHm-ZU-mYv">
+                        <rect key="frame" x="15" y="12" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="vHm-ZU-mYv" secondAttribute="height" multiplier="1:1" id="dUm-7t-wfJ"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的银行卡" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M8d-kq-R6D">
+                        <rect key="frame" x="50" y="12" width="200" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="200" id="5UN-9T-b4y"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xiayiye_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="JT2-sd-MiB">
+                        <rect key="frame" x="300" y="13" width="9" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="JT2-sd-MiB" secondAttribute="height" multiplier="9:17" id="gJX-Ti-1mO"/>
+                        </constraints>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wEo-bm-Eai">
+                        <rect key="frame" x="50" y="44" width="270" height="1"/>
+                        <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="AU9-dT-YlX"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="wEo-bm-Eai" firstAttribute="leading" secondItem="M8d-kq-R6D" secondAttribute="leading" id="Kqa-GP-JA2"/>
+                    <constraint firstItem="M8d-kq-R6D" firstAttribute="leading" secondItem="vHm-ZU-mYv" secondAttribute="trailing" constant="15" id="TR9-P3-s7j"/>
+                </constraints>
+            </tableViewCellContentView>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="JT2-sd-MiB" secondAttribute="bottom" constant="14" id="Eap-M7-kOV"/>
+                <constraint firstAttribute="bottom" secondItem="wEo-bm-Eai" secondAttribute="bottom" constant="-1" id="Jy0-6f-VBn"/>
+                <constraint firstItem="JT2-sd-MiB" firstAttribute="top" secondItem="KGk-i7-Jjw" secondAttribute="top" constant="13" id="WK4-A4-9fH"/>
+                <constraint firstAttribute="trailing" secondItem="wEo-bm-Eai" secondAttribute="trailing" id="X66-Xh-uE4"/>
+                <constraint firstItem="vHm-ZU-mYv" firstAttribute="top" secondItem="KGk-i7-Jjw" secondAttribute="top" constant="12" id="Xfi-kT-iRu"/>
+                <constraint firstAttribute="bottom" secondItem="vHm-ZU-mYv" secondAttribute="bottom" constant="12" id="bSD-4S-WCA"/>
+                <constraint firstAttribute="trailing" secondItem="JT2-sd-MiB" secondAttribute="trailing" constant="11" id="cID-qn-ztB"/>
+                <constraint firstItem="M8d-kq-R6D" firstAttribute="top" secondItem="KGk-i7-Jjw" secondAttribute="top" constant="12" id="m1M-Tj-RFJ"/>
+                <constraint firstAttribute="bottom" secondItem="M8d-kq-R6D" secondAttribute="bottom" constant="12" id="xce-hC-i5H"/>
+                <constraint firstItem="vHm-ZU-mYv" firstAttribute="leading" secondItem="KGk-i7-Jjw" secondAttribute="leading" constant="15" id="yAa-cf-R0O"/>
+            </constraints>
+            <connections>
+                <outlet property="titleImg" destination="vHm-ZU-mYv" id="qNE-8X-Wvt"/>
+                <outlet property="titleLab" destination="M8d-kq-R6D" id="CIA-dB-PaL"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="bankCard" width="20" height="20"/>
+        <image name="xiayiye_arrow" width="8" height="15"/>
+    </resources>
+</document>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="XHHOrderDetailSecTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未通过原因" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OSK-AT-Z8s">
+                        <rect key="frame" x="30" y="12" width="80" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="Mq7-Ke-oFI"/>
+                            <constraint firstAttribute="height" constant="20" id="ULo-FQ-1FW"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.31764705879999999" green="0.31764705879999999" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="南洋打开的痕迹按计划打啊" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="leF-Hd-Bec">
+                        <rect key="frame" x="130" y="12" width="190" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="0mx-wc-rFy"/>
+                            <constraint firstAttribute="width" constant="190" id="T5o-Zi-t8h"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.54509803921568623" green="0.54509803921568623" blue="0.54509803921568623" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G94-RP-soE">
+                        <rect key="frame" x="0.0" y="43" width="320" height="1"/>
+                        <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="Q5h-VB-GTq"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="leF-Hd-Bec" firstAttribute="leading" secondItem="OSK-AT-Z8s" secondAttribute="trailing" constant="20" id="h4l-Oi-1j6"/>
+                </constraints>
+            </tableViewCellContentView>
+            <constraints>
+                <constraint firstItem="OSK-AT-Z8s" firstAttribute="centerY" secondItem="KGk-i7-Jjw" secondAttribute="centerY" id="Ab3-2T-1vc"/>
+                <constraint firstItem="G94-RP-soE" firstAttribute="leading" secondItem="KGk-i7-Jjw" secondAttribute="leading" id="Iok-lK-WNi"/>
+                <constraint firstItem="OSK-AT-Z8s" firstAttribute="leading" secondItem="KGk-i7-Jjw" secondAttribute="leading" constant="30" id="ORT-vQ-SMw"/>
+                <constraint firstItem="leF-Hd-Bec" firstAttribute="centerY" secondItem="KGk-i7-Jjw" secondAttribute="centerY" id="WDo-uP-PyI"/>
+                <constraint firstAttribute="bottom" secondItem="G94-RP-soE" secondAttribute="bottom" id="egV-Bi-Fzh"/>
+                <constraint firstAttribute="trailing" secondItem="G94-RP-soE" secondAttribute="trailing" id="ylk-dG-z2O"/>
+            </constraints>
+            <connections>
+                <outlet property="infoLab" destination="leF-Hd-Bec" id="W24-fe-fng"/>
+                <outlet property="titleLab" destination="OSK-AT-Z8s" id="tWw-FH-g3J"/>
+            </connections>
+            <point key="canvasLocation" x="172" y="45"/>
+        </tableViewCell>
+    </objects>
+</document>

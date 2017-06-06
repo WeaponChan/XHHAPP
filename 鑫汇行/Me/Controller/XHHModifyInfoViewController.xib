@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="XHHModifyInfoViewController">
+            <connections>
+                <outlet property="modifyText" destination="kWM-Kp-FiP" id="CTf-GL-cBh"/>
+                <outlet property="saveBtn" destination="iRO-Bn-jZC" id="Ioa-Sm-e2O"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入修改的信息" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kWM-Kp-FiP">
+                    <rect key="frame" x="15" y="40" width="340" height="40"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="NTu-xT-o5m"/>
+                    </constraints>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iRO-Bn-jZC">
+                    <rect key="frame" x="15" y="100" width="340" height="40"/>
+                    <color key="backgroundColor" red="0.23921568630000001" green="0.56862745100000001" blue="0.89019607840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="JBc-u0-T2U"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <state key="normal" title="保存"/>
+                    <connections>
+                        <action selector="saveClick:" destination="-1" eventType="touchUpInside" id="goc-pL-nSQ"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="iRO-Bn-jZC" firstAttribute="top" secondItem="kWM-Kp-FiP" secondAttribute="bottom" constant="20" id="BjH-13-6dz"/>
+                <constraint firstItem="iRO-Bn-jZC" firstAttribute="leading" secondItem="kWM-Kp-FiP" secondAttribute="leading" id="RXA-hu-2Cv"/>
+                <constraint firstItem="kWM-Kp-FiP" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="40" id="Rcz-PJ-UXq"/>
+                <constraint firstItem="kWM-Kp-FiP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="SRz-Lt-zvJ"/>
+                <constraint firstAttribute="trailing" secondItem="kWM-Kp-FiP" secondAttribute="trailing" constant="20" id="YK2-Vv-Hco"/>
+                <constraint firstItem="iRO-Bn-jZC" firstAttribute="trailing" secondItem="kWM-Kp-FiP" secondAttribute="trailing" id="lkB-wp-cL5"/>
+            </constraints>
+            <point key="canvasLocation" x="71.5" y="157.5"/>
+        </view>
+    </objects>
+</document>

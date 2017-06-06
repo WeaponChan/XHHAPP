@@ -7,11 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LhkhBaseTabBarViewController.h"
+#import "LhkhBaseNavigationViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+@property (strong, nonatomic) LhkhBaseTabBarViewController *BaseTabBarController;
+@property (strong, nonatomic) LhkhBaseNavigationViewController *BaseNavigationViewController;
+@property BOOL isloginOut;
+-(void)openLoginCtrl;
+- (void)openTabHomeCtrl;
++(AppDelegate *)sharedAppDelegate;
 
 @end
 
