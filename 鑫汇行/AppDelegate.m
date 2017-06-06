@@ -29,6 +29,7 @@
     manager.shouldToolbarUsesTextFieldTintColor = YES;
     manager.enableAutoToolbar = NO;
     
+    
     //当前设备的网络类型
     Reachability *conn = [Reachability reachabilityForInternetConnection];
     NSString *status = nil;
