@@ -9,5 +9,7 @@
 #import "LhkhBaseViewController.h"
 
 @interface XHHMessageDetailViewController : LhkhBaseViewController
-
+@property(copy,nonatomic)NSString*user_id;
+@property(copy,nonatomic)NSString*message_id;
+@property(copy,nonatomic)NSString*message_status;
 @end

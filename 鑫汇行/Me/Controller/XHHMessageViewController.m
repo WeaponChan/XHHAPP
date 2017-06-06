@@ -112,6 +112,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     XHHMessageDetailViewController *vc = [[XHHMessageDetailViewController alloc] init];
+    NSDictionary *dic = _messageArr[indexPath.row];
+    vc.user_id = _user_id;
+    vc.message_id = dic[@"id"];
+    vc.message_status = dic[@"status"];
     [self.navigationController pushViewController:vc animated:NO];
 }
 - (void)didReceiveMemoryWarning {
