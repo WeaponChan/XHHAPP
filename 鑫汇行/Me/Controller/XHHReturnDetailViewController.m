@@ -41,13 +41,15 @@
 
 -(void)loadData{
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     params[@"action"] = @(1012);
-    params[@"key"] = KEY;
-    params[@"phone"] = @(11377606508); //user.integerValue
-    params[@"user_id"] = @(self.user_id.integerValue);
+    params[@"key"] = user_key;
+    params[@"phone"] = @(user.integerValue); //user.integerValue
+    params[@"user_id"] = @(user_id.integerValue);
     self.params = params;
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1012&key=%@&phone=11377606508",XHHBaseUrl,KEY];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1012&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:1 success:^(id responseObject) {
         NSLog(@"-----meReturnDetail=%@",responseObject);
         ReturnDetailArr = [NSMutableArray array];

@@ -90,8 +90,9 @@
 
 -(void)loadMessageNum{
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
+    NSString *user_id = [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
     params[@"action"] = @(1015);
-    params[@"user_id"] = @(1);
+    params[@"user_id"] = @(user_id.integerValue);
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1015&do=1",XHHBaseUrl];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
         NSLog(@"-----menum=%@",responseObject);
@@ -123,7 +124,7 @@
 }
 
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item{
-    NSString *user = [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user = [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
     NSLog(@"-----点击了%@---user-->%@",item.title,user);
     
     if ([item.title isEqualToString:@"订单"] || [item.title isEqualToString:@"我的"]) {

@@ -494,14 +494,16 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 
 -(void)uploadImg:(NSString*)imagestr image:(UIImage*)image{
     NSMutableDictionary *modifyparams = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     modifyparams[@"action"] = @(1016);
-    modifyparams[@"key"] = KEY;
-    modifyparams[@"phone"] = @(11377606508);
+    modifyparams[@"key"] = user_key;
+    modifyparams[@"phone"] = @(user.integerValue);
     //user.integerValue
-    modifyparams[@"user_id"] = @(1);
+    modifyparams[@"user_id"] = @(user_id.integerValue);
     modifyparams[@"pic"] = imagestr;
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1016&key=%@&phone=11377606508",XHHBaseUrl,KEY];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1016&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     NSLog(@"----params=%@",modifyparams);
     [LhkhHttpsManager requestWithURLString:url parameters:modifyparams type:2 success:^(id responseObject) {
         NSLog(@"-----myinfo=%@",responseObject);
@@ -570,10 +572,12 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 -(void)applyAct{
     NSLog(@"user_name===%@",user_name.text);
     NSMutableDictionary *applyparams = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     applyparams[@"action"] = @(1017);
-    applyparams[@"key"] = KEY;
-    applyparams[@"phone"] = @(11377606508);
+    applyparams[@"key"] = user_key;
+    applyparams[@"phone"] = @(user.integerValue);
     applyparams[@"tel_phone"] = @(tel_phone.text.integerValue);
     applyparams[@"user_name"] = user_name.text;
     applyparams[@"icard"] = icard.text;
@@ -581,7 +585,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     applyparams[@"material_name"] = listStr;
     applyparams[@"material_pic"] = [NSString stringWithFormat:@"%@,%@,%@",imgStr0,imgStr1,imgStr2];
     applyparams[@"pro_id"] = @(pro_id.integerValue);
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1017&key=%@&phone=11377606508",XHHBaseUrl,KEY];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1017&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     NSLog(@"----params=%@",applyparams);
     [LhkhHttpsManager requestWithURLString:url parameters:applyparams type:2 success:^(id responseObject) {
         NSLog(@"-----apply=%@",responseObject);

@@ -12,6 +12,8 @@
 #import "XHHRegisterViewController.h"
 #import "MBProgressHUD+Add.h"
 #import "AppDelegate.h"
+#import "LhkhHttpsManager.h"
+
 @interface XHHLoginViewController ()<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
@@ -42,11 +44,32 @@
 }
 
 - (IBAction)LoginClick:(id)sender {
+    
     NSLog(@"----->%@",self.phoneText.text);
+    
     if (self.phoneText.text.length > 0 && self.phoneText.text != nil && ![self.phoneText isKindOfClass:[NSNull  class]] && ![self.phoneText.text isEqualToString:@""] && !(self.phoneText.text.length > 11)) {
-        XHHTestnumViewController *vc = [[XHHTestnumViewController alloc]init];
-        vc.phoneNum = self.phoneText.text;
-        [self.navigationController pushViewController:vc animated:YES];
+        
+        NSMutableDictionary *params = [NSMutableDictionary  dictionary];
+        params[@"action"] = @(1022);
+        params[@"phone"] = @(self.phoneText.text.integerValue);
+
+        NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1022",XHHBaseUrl];
+        [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
+            NSLog(@"-----Login=%@",responseObject);
+            if ([responseObject[@"status"] isEqualToString:@"1"]) {
+                    [MBProgressHUD show:[NSString stringWithFormat:@"验证码%@",responseObject[@"msg"]] view:self.view];
+                    XHHTestnumViewController *vc = [[XHHTestnumViewController alloc]init];
+                    vc.phoneNum = self.phoneText.text;
+                    [self.navigationController pushViewController:vc animated:YES];
+            }else{
+                [MBProgressHUD show:responseObject[@"msg"] view:self.view];
+            }
+            
+        } failure:^(NSError *error) {
+            NSString *str = [NSString stringWithFormat:@"%@",error];
+            [MBProgressHUD show:str view:self.view];
+        }];
+        
     }else{
         [MBProgressHUD show:@"请正确输入手机号码" view:self.view];
         return;

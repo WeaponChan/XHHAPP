@@ -11,6 +11,7 @@
 #import "LhkhLodingView.h"
 #import "XHHNoteViewController.h"
 #import "MBProgressHUD+Add.h"
+#import "LhkhHttpsManager.h"
 @interface XHHTestnumViewController ()<UITextFieldDelegate>
 {
     AppDelegate *appdelegate;
@@ -46,10 +47,34 @@
 }
 //登录
 - (IBAction)loginClick:(id)sender {
-    [[NSUserDefaults standardUserDefaults] setObject:self.phoneNum forKey:@"User"];
+    
     if (self.checkBtn.selected == YES) {
-        appdelegate.isloginOut = YES;
-        [appdelegate openTabHomeCtrl];
+        NSMutableDictionary *params = [NSMutableDictionary  dictionary];
+        params[@"action"] = @(1023);
+        params[@"phone"] = @(self.phoneNum.integerValue);
+        params[@"ver_code"] = @(self.testNumText.text.integerValue);
+        
+        NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1023",XHHBaseUrl];
+        [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
+            NSLog(@"-----LoginSuccess=%@",responseObject);
+            if ([responseObject[@"status"] isEqualToString:@"1"]) {
+                NSString *user_mobile = responseObject[@"list"][@"user_mobile"];
+                NSString *user_id = responseObject[@"list"][@"user_id"];
+                NSString *user_key = responseObject[@"list"][@"user_key"];
+                [[NSUserDefaults standardUserDefaults] setObject:user_mobile forKey:@"USER"];
+                [[NSUserDefaults standardUserDefaults] setObject:user_id forKey:@"USER_ID"];
+                [[NSUserDefaults standardUserDefaults] setObject:user_key forKey:@"USER_KEY"];
+                appdelegate.isloginOut = YES;
+                [appdelegate openTabHomeCtrl];
+            }else{
+                [MBProgressHUD show:responseObject[@"msg"] view:self.view];
+            }
+            
+        } failure:^(NSError *error) {
+            NSString *str = [NSString stringWithFormat:@"%@",error];
+            [MBProgressHUD show:str view:self.view];
+        }];
+        
     }else{
         [MBProgressHUD show:@"请同意鑫汇行的用户手册" view:self.view];
     }
@@ -58,7 +83,33 @@
 }
 //重新获取验证码
 - (IBAction)regetNumClick:(id)sender {
-    [self startTimer];
+    if (self.phoneNum.length > 0 && self.phoneNum != nil && ![self.phoneNum isKindOfClass:[NSNull  class]] && ![self.phoneNum isEqualToString:@""] && !(self.phoneNum.length > 11)) {
+        
+        NSMutableDictionary *params = [NSMutableDictionary  dictionary];
+        params[@"action"] = @(1022);
+        params[@"phone"] = @(self.phoneNum.integerValue);
+        
+        NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1022",XHHBaseUrl];
+        [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
+            NSLog(@"-----Login=%@",responseObject);
+            if ([responseObject[@"status"] isEqualToString:@"1"]) {
+                [self startTimer];
+                [MBProgressHUD show:[NSString stringWithFormat:@"验证码%@",responseObject[@"msg"]] view:self.view];
+                
+            }else{
+                [MBProgressHUD show:responseObject[@"msg"] view:self.view];
+            }
+            
+        } failure:^(NSError *error) {
+            NSString *str = [NSString stringWithFormat:@"%@",error];
+            [MBProgressHUD show:str view:self.view];
+        }];
+        
+    }else{
+        [MBProgressHUD show:@"请正确输入手机号码" view:self.view];
+        return;
+    }
+    
 }
 //是否同意用户手册
 - (IBAction)checkClick:(id)sender {

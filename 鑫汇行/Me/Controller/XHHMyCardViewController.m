@@ -81,19 +81,21 @@
 
 -(void)loadData{
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     params[@"action"] = @(1019);
-    params[@"key"] = KEY;
-    params[@"phone"] = @(11377606508); //user.integerValue
-    params[@"user_id"] = @(self.user_id.integerValue);
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1019&key=%@&phone=%@",XHHBaseUrl,KEY,user];
+    params[@"key"] = user_key;
+    params[@"phone"] = @(user.integerValue); //user.integerValue
+    params[@"user_id"] = @(user_id.integerValue);
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1019&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
         NSLog(@"-----bankcard=%@",responseObject);
         if (responseObject[@"list"]) {
             [self closeLoadingView];
-            self.blankView.hidden = NO;
-//            headView.hidden = NO;
-//            self.tableView.hidden = NO;
+            self.blankView.hidden = YES;
+            headView.hidden = NO;
+            self.tableView.hidden = NO;
             
             NSDictionary *dic = responseObject[@"list"];
             IDcard.text = dic[@"icard"];
@@ -547,11 +549,13 @@
 
     [self showLoadingView];
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     params[@"action"] = @(1019);
-    params[@"key"] = KEY;
-    params[@"phone"] = @(11377606508); //user.integerValue
-    params[@"user_id"] = @(1);
+    params[@"key"] = user_key;
+    params[@"phone"] = @(user.integerValue); //user.integerValue
+    params[@"user_id"] = @(user_id.integerValue);
     
     params[@"name"] = userName.text;
     params[@"icard"] = IDcard.text;
@@ -562,7 +566,7 @@
     params[@"bank_branch"] = bankbranch.text;
     params[@"do"] = @(3);
     params[@"card_id"] = @(cardid.integerValue);
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1019&key=%@&phone=11377606508",XHHBaseUrl,KEY];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1019&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
         NSLog(@"-----modifybankcard=%@",responseObject);
         if (responseObject[@"list"] && [responseObject[@"status"] isEqualToString:@"1"]) {
@@ -717,7 +721,10 @@
 }
 
 -(void)sureButtonAction:(id)sender{
-    
+    if ([bankStr isEqualToString:@""] || [bank_id isEqualToString:@""] || bankStr == nil || bank_id == nil) {
+        bankStr = bankArr[0][@"name"];
+        bank_id = bankArr[0][@"bank_id"];
+    }
     _blackView.hidden =  _pickerRootView.hidden = YES;
     [self.tableView reloadData];
     
@@ -746,6 +753,7 @@
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    
     bankStr = bankArr[row][@"name"];
     bank_id = bankArr[row][@"bank_id"];
 }

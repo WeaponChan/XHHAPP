@@ -47,15 +47,17 @@
 
 -(void)loadNewData{
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     params[@"action"] = @(1007);
-    params[@"key"] = KEY;
-    params[@"phone"] = @(11377606508);//user.integerValue
+    params[@"key"] = user_key;
+    params[@"phone"] = @(user.integerValue);//user.integerValue
     params[@"status"] = @(0);
     params[@"page_num"] = @(0);
     params[@"list_rows"] = @(8);
     self.params = params;
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1007&key=%@&phone=11377606508",XHHBaseUrl,KEY];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1007&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     NSLog(@"----params=%@",params);
     [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
         NSLog(@"-----historyorder=%@",responseObject);
@@ -79,16 +81,18 @@
 
 -(void)loadMoreData{
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     params[@"action"] = @(1007);
-    params[@"key"] = KEY;
-    params[@"phone"] = @(11377606508);//user.integerValue
+    params[@"key"] = user_key;
+    params[@"phone"] = @(user.integerValue);//user.integerValue
     params[@"status"] = @(0);
     NSInteger page = self.page_num + 1;
     params[@"page_num"] = @(page);
     params[@"list_rows"] = @(8);
     self.params = params;
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1007&key=%@&phone=11377606508",XHHBaseUrl,KEY];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1007&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
         NSLog(@"-----hisorder=%@",responseObject);
         if (self.params != params) return;

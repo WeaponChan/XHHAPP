@@ -61,28 +61,35 @@
 
 -(void)loadData{
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     params[@"action"] = @(1011);
-    params[@"key"] = KEY;
-    params[@"phone"] = @(USER.integerValue); //user.integerValue
+    params[@"key"] = user_key;
+    params[@"phone"] = @(user.integerValue); //user.integerValue
     self.params = params;
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1011&key=%@&phone=%@",XHHBaseUrl,KEY,user];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1011&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:1 success:^(id responseObject) {
         NSLog(@"-----me=%@",responseObject);
-        headerinfoDic = responseObject[@"list"];
-        [headImg sd_setImageWithURL:[NSURL URLWithString:headerinfoDic[@"pic"]] placeholderImage:[UIImage imageNamed:@""]];
-        headImg.layer.borderColor = [UIColor whiteColor].CGColor;
-        headImg.layer.borderWidth = 2.f;
-        nameLab.text = headerinfoDic[@"name"];
-        NSString *str = [NSString stringWithFormat:@"累计返费  %@ (元)",headerinfoDic[@"rebate_money"]];
-        NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:str];
-        NSRange rangel = [[textColor string] rangeOfString:[str substringWithRange:NSMakeRange(6, str.length-10)]];
-        [textColor addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:rangel];
-        [textColor addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:24] range:rangel];
-        
-        [returnCashLab setAttributedText:textColor];
-        
-        [self.tableView reloadData];
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            headerinfoDic = responseObject[@"list"];
+            [headImg sd_setImageWithURL:[NSURL URLWithString:headerinfoDic[@"pic"]] placeholderImage:[UIImage imageNamed:@"default"]];
+            headImg.layer.borderColor = [UIColor whiteColor].CGColor;
+            headImg.layer.borderWidth = 2.f;
+            nameLab.text = headerinfoDic[@"name"];
+            NSString *str = [NSString stringWithFormat:@"累计返费  %@ (元)",headerinfoDic[@"rebate_money"]];
+            NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:str];
+            NSRange rangel = [[textColor string] rangeOfString:[str substringWithRange:NSMakeRange(6, str.length-10)]];
+            [textColor addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:rangel];
+            [textColor addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:24] range:rangel];
+            
+            [returnCashLab setAttributedText:textColor];
+            
+            [self.tableView reloadData];
+        }else{
+            returnCashLab.text  = @"累计返费";
+            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
+        }
         [self.tableView.mj_header endRefreshing];
     } failure:^(NSError *error) {
         NSString *str = [NSString stringWithFormat:@"%@",error];
@@ -101,8 +108,13 @@
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1015&do=1",XHHBaseUrl];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
         NSLog(@"-----menum=%@",responseObject);
-        Messagenum = responseObject[@"list"][@"nums"];
-        [self.tableView reloadData];
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            Messagenum = responseObject[@"list"][@"nums"];
+            [self.tableView reloadData];
+        }else{
+            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
+        }
+        
     } failure:^(NSError *error) {
         NSString *str = [NSString stringWithFormat:@"%@",error];
         [MBProgressHUD show:str view:self.view];
@@ -257,7 +269,9 @@
 
 -(void)logoutClick{
     NSLog(@"----退出登录");
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"User"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"USER_ID"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"USER"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"USER_KEY"];
     self.tabBarController.selectedIndex = 0;
 }
 
@@ -415,16 +429,18 @@
 //    NSString *tel = dic[@"tel"];
 //    NSString *qq = dic[@"qq"];
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     params[@"action"] = @(1018);
-    params[@"key"] = KEY;
-    params[@"phone"] = @(USER.integerValue); //user.integerValue
-    params[@"user_id"] = @(1);
+    params[@"key"] = user_key;
+    params[@"phone"] = @(user.integerValue); //user.integerValue
+    params[@"user_id"] = @(user_id.integerValue);
     if ([str isEqualToString:@"1"]) {
         params[@"do"] = @(1);
     }
     
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1018&key=%@&phone=%@",XHHBaseUrl,KEY,user];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1018&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:1 success:^(id responseObject) {
         NSLog(@"-----kefu=%@",responseObject);
         if (responseObject[@"list"]) {

@@ -73,10 +73,12 @@
     
     NSLog(@"user_id----->%@messageid---->%@messagestatu---->%@",_user_id,_message_id,_message_status);
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     params[@"action"] = @(1021);
-    params[@"key"] = KEY;
-    params[@"user_id"] = @(_user_id.integerValue);
+    params[@"key"] = user_key;
+    params[@"user_id"] = @(user_id.integerValue);
     params[@"message_id"] = @(_message_id.integerValue);
     params[@"message_status"] = @(_message_status.integerValue);
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1021",XHHBaseUrl];

@@ -502,11 +502,13 @@
     }
     [self showLoadingView];
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     params[@"action"] = @(1019);
-    params[@"key"] = KEY;
-    params[@"phone"] = @(11377606508); //user.integerValue
-    params[@"user_id"] = @(1);
+    params[@"key"] = user_key;
+    params[@"phone"] = @(user.integerValue);
+    params[@"user_id"] = @(user_id.integerValue);
     params[@"name"] = userName.text;
     params[@"icard"] = IDcard.text;
     params[@"bankcard"] = @(bankcard.text.integerValue);
@@ -515,7 +517,7 @@
     params[@"city"] = [NSString stringWithFormat:@"%@市",text2.text];
     params[@"bank_branch"] = bankbranch.text;
     params[@"do"] = @(1);
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1019&key=%@&phone=%@",XHHBaseUrl,KEY,user];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1019&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
         NSLog(@"-----addbankcard=%@",responseObject);
         if (responseObject[@"list"] && [responseObject[@"status"] isEqualToString:@"1"]) {
@@ -579,8 +581,26 @@
 
 -(void)getNumClick{
     NSLog(@"------");
-    [self startTimer];
-    timeLab.text = @"60";
+    NSMutableDictionary *params = [NSMutableDictionary  dictionary];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    params[@"action"] = @(1022);
+    params[@"phone"] = @(user.integerValue);
+    
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1022",XHHBaseUrl];
+    [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
+        NSLog(@"-----addCardgetnum=%@",responseObject);
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            [MBProgressHUD show:[NSString stringWithFormat:@"验证码%@",responseObject[@"msg"]] view:self.view];
+            [self startTimer];
+            timeLab.text = @"60";
+        }else{
+            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
+        }
+        
+    } failure:^(NSError *error) {
+        NSString *str = [NSString stringWithFormat:@"%@",error];
+        [MBProgressHUD show:str view:self.view];
+    }];
 }
 
 // 开始定时器
@@ -679,7 +699,10 @@
 }
 
 -(void)sureButtonAction:(id)sender{
-    
+    if ([bankStr isEqualToString:@""] || [bank_id isEqualToString:@""] || bankStr == nil || bank_id == nil) {
+        bankStr = bankArr[0][@"name"];
+        bank_id = bankArr[0][@"bank_id"];
+    }
     _blackView.hidden =  _pickerRootView.hidden = YES;
     [self.tableView reloadData];
     
@@ -708,6 +731,7 @@
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+
     bankStr = bankArr[row][@"name"];
     bank_id = bankArr[row][@"bank_id"];
 }

@@ -43,8 +43,10 @@
 
 - (void)getWebContent{
     [self showLoadingView];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1006&key=%@&phone=%@&news_id=2",XHHBaseUrl,KEY,user];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1006&key=%@&phone=%@&news_id=2",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:nil type:1 success:^(id responseObject) {
         NSLog(@"----aboutusresponseObject=%@",responseObject);
         NSString *htmlCode = [responseObject objectForKey:@"list"];

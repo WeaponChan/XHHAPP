@@ -37,9 +37,11 @@
 
     NSLog(@"user_id----->%@",_user_id);
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     params[@"action"] = @(1015);
-    params[@"user_id"] = @(_user_id.integerValue);
+    params[@"user_id"] = @(user_id.integerValue);
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1015",XHHBaseUrl];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:1 success:^(id responseObject) {
         NSLog(@"-----message=%@",responseObject);
@@ -113,7 +115,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     XHHMessageDetailViewController *vc = [[XHHMessageDetailViewController alloc] init];
     NSDictionary *dic = _messageArr[indexPath.row];
-    vc.user_id = _user_id;
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    vc.user_id = user_id;
     vc.message_id = dic[@"id"];
     vc.message_status = dic[@"status"];
     [self.navigationController pushViewController:vc animated:NO];

@@ -256,8 +256,13 @@ UIPickerViewDelegate,UIPickerViewDataSource,UIImagePickerControllerDelegate,UINa
     if (isDatePicker == YES) {
         [self modifyData:@"birth" modifyInfo:dateStr];
     }else{
+        if (shiStr == nil) {
+            _citiesArray = _dataArray[0][@"cities"];
+            proStr = _dataArray[0][@"state"];
+            shiStr = _citiesArray[0];
+        }
         [self modifyData:@"city" modifyInfo:shiStr];
-//       areaLabel.text = [NSString stringWithFormat:@"%@ %@",proStr,shiStr];
+
     }
     
 }
@@ -473,12 +478,14 @@ UIPickerViewDelegate,UIPickerViewDataSource,UIImagePickerControllerDelegate,UINa
 - (void)loadData {
     
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     params[@"action"] = @(1010);
-    params[@"key"] = KEY;
-    params[@"phone"] = @(11377606508); //user.integerValue
+    params[@"key"] = user_key;
+    params[@"phone"] = @(user.integerValue); //user.integerValue
     self.params = params;
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1010&key=%@&phone=%@",XHHBaseUrl,KEY,user];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1010&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:1 success:^(id responseObject) {
         NSLog(@"-----myinfo=%@",responseObject);
         self.myInfoModel = [XHHMyinfoModel mj_objectWithKeyValues:responseObject[@"list"]];
@@ -492,16 +499,18 @@ UIPickerViewDelegate,UIPickerViewDataSource,UIImagePickerControllerDelegate,UINa
 
 -(void)modifyData:(NSString*)modifyStr modifyInfo:(NSString*)modifyInfo{
     NSMutableDictionary *modifyparams = [NSMutableDictionary  dictionary];
-    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     modifyparams[@"action"] = @(1010);
-    modifyparams[@"key"] = KEY;
-    modifyparams[@"phone"] = @(11377606508);
+    modifyparams[@"key"] = user_key;
+    modifyparams[@"phone"] = @(user.integerValue);
     //user.integerValue
     modifyparams[@"user_id"] = @(self.myInfoModel.ID.integerValue);
     modifyparams[@"do"] = @(3);
     modifyparams[modifyStr] = modifyInfo;
     self.modifyparams = modifyparams;
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1010&key=%@&phone=11377606508&do=3",XHHBaseUrl,KEY];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1010&key=%@&phone=%@&do=3",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:modifyparams type:2 success:^(id responseObject) {
         NSLog(@"-----myinfo=%@",responseObject);
         if ([responseObject[@"status"] isEqualToString:@"1"]) {

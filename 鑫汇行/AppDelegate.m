@@ -47,7 +47,7 @@
         status = @"0";
     }
     [[NSUserDefaults standardUserDefaults]setObject:status forKey:@"status"];
-    NSString *user = [[NSUserDefaults standardUserDefaults] objectForKey:@"User"];
+    NSString *user = [[NSUserDefaults standardUserDefaults] objectForKey:@"USER"];
     NSLog(@"----user--->%@",user);
     if (user.length>0) {
         [self openTabHomeCtrl];
