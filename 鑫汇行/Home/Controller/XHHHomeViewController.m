@@ -62,6 +62,7 @@ static int proPage = 0;
    
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1003",XHHBaseUrl];
     [LhkhHttpsManager requestWithURLString:url parameters:nil type:1 success:^(id responseObject) {
+        
         NSLog(@"-----homeresponseObject=%@",responseObject);
         [self.tableView.mj_header endRefreshing];
         news_title = responseObject[@"list"][@"rebate_title"];
