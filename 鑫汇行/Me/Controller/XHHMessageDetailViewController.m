@@ -75,6 +75,7 @@
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
     NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
     params[@"action"] = @(1021);
+    params[@"key"] = KEY;
     params[@"user_id"] = @(_user_id.integerValue);
     params[@"message_id"] = @(_message_id.integerValue);
     params[@"message_status"] = @(_message_status.integerValue);

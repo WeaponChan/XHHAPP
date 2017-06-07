@@ -98,9 +98,9 @@
     cell.messageLab.text = dic[@"content"];
     NSString *status = dic[@"status"];
     if ([status isEqualToString:@"0"]) {
-        cell.statusLab.hidden = YES;
-    }else{
         cell.statusLab.hidden = NO;
+    }else{
+        cell.statusLab.hidden = YES;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;

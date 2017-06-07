@@ -12,4 +12,5 @@
 #import "Common.h"
 #define XHHBaseUrl  @"http://xinhuibank.dxteng.com"
 #define KEY @"0f32201f62082c20a31a9ba2d6f6fe7b"
+#define USER @"11377606508"
 #endif /* PrefixHeader_pch */

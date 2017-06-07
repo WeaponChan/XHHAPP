@@ -15,6 +15,8 @@
 #import "XHHMeViewController.h"
 #import "AppDelegate.h"
 #import "UITabBarController+XHHTabarBadge.h"
+#import "LhkhHttpsManager.h"
+#import "MBProgressHUD+Add.h"
 @interface LhkhBaseTabBarViewController ()<UITabBarDelegate>
 
 @end
@@ -26,6 +28,7 @@
     _vcsArray = [NSMutableArray array];
     
     [self setTabBarVCs];
+    [self loadMessageNum];
 //    [self removeTabarTopLine];//移除tabbar上面横线
 }
 
@@ -81,9 +84,27 @@
         }   
     }
 
-    [self showBadgeOnItemIndex:4];
     return navc;
     
+}
+
+-(void)loadMessageNum{
+    NSMutableDictionary *params = [NSMutableDictionary  dictionary];
+    params[@"action"] = @(1015);
+    params[@"user_id"] = @(1);
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1015&do=1",XHHBaseUrl];
+    [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
+        NSLog(@"-----menum=%@",responseObject);
+        NSString *nums = responseObject[@"list"][@"nums"];
+        if (![nums isEqualToString:@"0"]) {
+            [self showBadgeOnItemIndex:4];
+        }else{
+            [self hideBadgeOnItemIndex:4];
+        }
+    } failure:^(NSError *error) {
+        NSString *str = [NSString stringWithFormat:@"%@",error];
+        [MBProgressHUD show:str view:self.view];
+    }];
 }
 
 //去掉tabbar上面的横线

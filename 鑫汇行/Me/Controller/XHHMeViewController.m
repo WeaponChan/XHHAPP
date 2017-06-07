@@ -64,7 +64,7 @@
     NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
     params[@"action"] = @(1011);
     params[@"key"] = KEY;
-    params[@"phone"] = @(11377606508); //user.integerValue
+    params[@"phone"] = @(USER.integerValue); //user.integerValue
     self.params = params;
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1011&key=%@&phone=%@",XHHBaseUrl,KEY,user];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:1 success:^(id responseObject) {
@@ -92,7 +92,7 @@
 }
 
 -(void)loadMessageNum{
-    
+    messageLab = [[UILabel alloc]initWithFrame:CGRectZero];
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
     NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
     params[@"action"] = @(1015);
@@ -320,8 +320,8 @@
             }else if (indexPath.row == 4){
                 cell.titleImg.image = [UIImage imageNamed:@"letter"];
                 cell.titleLab.text = @"站内信";
-                messageLab = [[UILabel alloc]initWithFrame:CGRectZero];
-                if (![Messagenum isKindOfClass:[NSNull class]] && Messagenum != nil && Messagenum.length>0) {
+                
+                if (![Messagenum isKindOfClass:[NSNull class]] && Messagenum != nil && Messagenum.length>0 && ![Messagenum isEqualToString:@"0"]) {
                     messageLab.hidden = NO;
                     NSString *str =[NSString stringWithFormat:@"%@条未读 ●",Messagenum];
                     NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:str];
@@ -340,6 +340,7 @@
                     }];
                 }else{
                     messageLab.hidden = YES;
+                    [self.tabBarController hideBadgeOnItemIndex:4];
                 }
             }else{
                 cell.titleImg.image = [UIImage imageNamed:@"hisOrder"];
@@ -417,7 +418,7 @@
     NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"User"];
     params[@"action"] = @(1018);
     params[@"key"] = KEY;
-    params[@"phone"] = @(11377606508); //user.integerValue
+    params[@"phone"] = @(USER.integerValue); //user.integerValue
     params[@"user_id"] = @(1);
     if ([str isEqualToString:@"1"]) {
         params[@"do"] = @(1);
