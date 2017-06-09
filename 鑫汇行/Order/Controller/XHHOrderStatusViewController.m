@@ -195,38 +195,102 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.orderApplyStatusBlock = ^(){
-        LhkhAlertViewController *vc = [LhkhAlertViewController alertVcWithTitle:@"接通专属客服" message:@"0512-68888888" AndAlertDoneAction:^(NSInteger tag) {
-            if (tag == 100) {
-                NSLog(@"------点击了取消");
-            }else if (tag == 101){
-                NSLog(@"------点击了确定");
-                NSString *phoneNum = @"0512-68888888";
-                NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@",phoneNum]];
-                [[UIApplication sharedApplication] openURL:url];
-            }else{
-                NSLog(@"------点击了qq客服");
-                if([XHChatQQ haveQQ])//是否有安装QQ客户端
-                {
-                    //此处传入的QQ号,需开通QQ推广功能,不然"陌生人"无法向此QQ号发送临时消,(发送时会直接失败).
-                    //开通QQ推广方法:1.打开QQ推广网址http://shang.qq.com并用QQ登录  2.点击顶部导航栏:推广工具  3.在弹出菜单中点击'立即免费开通' 即可
-                    
-                    [XHChatQQ chatWithQQ:@"1065957388"];//发起QQ临时会话
-                }
-                else
-                {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"您的设备尚未安装QQ客户端,不能进行QQ临时会话" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                    [alert show];
-                }
-                //注意事项:
-                //1.由于'开发文档'中规定app的正常使用不能依赖其他APP,所以在项目中集成此功能的童鞋要注意,在未安装QQ客户端时建议影藏此功能,不然上架有被拒风险.
-                //2.我前期上架一个app,便是这样处理的.
-                //3.若还有不清楚同学,可以查看我简书上一篇文章:文章地址 http://www.jianshu.com/p/ac4981b634c2
-            }
-        }];
-        [weakself showTransparentController:vc];
+        [self kefu];
+//        LhkhAlertViewController *vc = [LhkhAlertViewController alertVcWithTitle:@"接通专属客服" message:@"0512-68888888" AndAlertDoneAction:^(NSInteger tag) {
+//            if (tag == 100) {
+//                NSLog(@"------点击了取消");
+//            }else if (tag == 101){
+//                NSLog(@"------点击了确定");
+//                NSString *phoneNum = @"0512-68888888";
+//                NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@",phoneNum]];
+//                [[UIApplication sharedApplication] openURL:url];
+//            }else{
+//                NSLog(@"------点击了qq客服");
+//                if([XHChatQQ haveQQ])//是否有安装QQ客户端
+//                {
+//                    //此处传入的QQ号,需开通QQ推广功能,不然"陌生人"无法向此QQ号发送临时消,(发送时会直接失败).
+//                    //开通QQ推广方法:1.打开QQ推广网址http://shang.qq.com并用QQ登录  2.点击顶部导航栏:推广工具  3.在弹出菜单中点击'立即免费开通' 即可
+//                    
+//                    [XHChatQQ chatWithQQ:@"1065957388"];//发起QQ临时会话
+//                }
+//                else
+//                {
+//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"您的设备尚未安装QQ客户端,不能进行QQ临时会话" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+//                    [alert show];
+//                }
+//                //注意事项:
+//                //1.由于'开发文档'中规定app的正常使用不能依赖其他APP,所以在项目中集成此功能的童鞋要注意,在未安装QQ客户端时建议影藏此功能,不然上架有被拒风险.
+//                //2.我前期上架一个app,便是这样处理的.
+//                //3.若还有不清楚同学,可以查看我简书上一篇文章:文章地址 http://www.jianshu.com/p/ac4981b634c2
+//            }
+//        }];
+//        [weakself showTransparentController:vc];
     };
     return cell;
 }
+
+-(void)kefu{
+
+    NSMutableDictionary *params = [NSMutableDictionary  dictionary];
+    NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
+    NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
+    params[@"action"] = @(1018);
+    params[@"key"] = user_key;
+    params[@"phone"] = @(user.integerValue);
+    params[@"user_id"] = @(user_id.integerValue);
+//    if ([str isEqualToString:@"1"]) {
+//        params[@"do"] = @(1);
+//    }
+    
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1018&key=%@&phone=%@",XHHBaseUrl,user_key,user];
+    [LhkhHttpsManager requestWithURLString:url parameters:params type:1 success:^(id responseObject) {
+        NSLog(@"-----kefu=%@",responseObject);
+        if (responseObject[@"list"]) {
+            NSDictionary *dic = responseObject[@"list"];
+            NSString *namestr = dic[@"admin_name"];
+            NSString *tel = dic[@"phone"];
+            NSString *qq = dic[@"qq"];
+            NSString *title = nil;
+//            if ([str isEqualToString:@"1"]) {
+//                title = [NSString stringWithFormat:@"团队长：%@",namestr];
+//            }else{
+//                title = [NSString stringWithFormat:@"客服：%@",namestr];
+//            }
+            title = [NSString stringWithFormat:@"客服：%@",namestr];
+            LhkhAlertViewController *vc = [LhkhAlertViewController alertVcWithTitle:title message:tel AndAlertDoneAction:^(NSInteger tag) {
+                if (tag == 100) {
+                    NSLog(@"------点击了取消");
+                }else if (tag == 101){
+                    NSLog(@"------点击了确定");
+                    NSString *phoneNum = tel;
+                    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@",phoneNum]];
+                    [[UIApplication sharedApplication] openURL:url];
+                }else{
+                    NSLog(@"------点击了qq客服");
+                    if([XHChatQQ haveQQ])//是否有安装QQ客户端
+                    {
+                        
+                        [XHChatQQ chatWithQQ:qq];
+                    }
+                    else
+                    {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"您的设备尚未安装QQ客户端,不能进行QQ临时会话" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                }
+            }];
+            [self showTransparentController:vc];
+        }
+    } failure:^(NSError *error) {
+        NSString *str = [NSString stringWithFormat:@"%@",error];
+        [MBProgressHUD show:str view:self.view];
+    }];
+    
+    
+}
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath   {
     return 150;
 }
