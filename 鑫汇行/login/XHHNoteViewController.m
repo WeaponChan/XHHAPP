@@ -7,8 +7,11 @@
 //
 
 #import "XHHNoteViewController.h"
-
-@interface XHHNoteViewController ()
+#import "MBProgressHUD+Add.h"
+#import "LhkhHttpsManager.h"
+@interface XHHNoteViewController ()<UIWebViewDelegate>
+//@property (nonatomic,strong)UIWebView *webView;
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
 
 @end
 
@@ -17,8 +20,60 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"鑫汇行手册";
+//    _webView = ({
+//        UIWebView *webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-64)];
+//        webView.delegate = self;
+//        [self.view addSubview:webView];
+//        webView;
+//    });
+    _webView.delegate =self;
+    [self loadData];
+    [self showLoadingView];
 }
 
+-(void)loadData{
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1024",XHHBaseUrl];
+    [LhkhHttpsManager requestWithURLString:url parameters:nil type:1 success:^(id responseObject) {
+        NSLog(@"------>note=%@",responseObject);
+        [self closeLoadingView];
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            NSDictionary *dic = [responseObject objectForKey:@"list"];
+            NSString *title = [dic objectForKey:@"title"];
+            NSString *htmlCode = [dic objectForKey:@"content"];
+//            self.navigationItem.title = title;
+            [_webView loadHTMLString:htmlCode baseURL:nil];
+        }else{
+            [MBProgressHUD show:@"暂无数据" view:self.view];
+        }
+    } failure:^(NSError *error) {
+        [self closeLoadingView];
+        [MBProgressHUD show:@"暂无数据" view:self.view];
+    }];
+}
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var script = document.createElement('script');"
+                                                     "script.type = 'text/javascript';"
+                                                     "script.text = \"function ResizeImages() { "
+                                                     "var myimg,oldwidth;"
+                                                     "var maxwidth=%f;"
+                                                     "for(i=0;i <document.images.length;i++){"
+                                                     "myimg = document.images[i];"
+                                                     "if(myimg.width > maxwidth){"
+                                                     "oldwidth = myimg.width;"
+                                                     "myimg.width = maxwidth;"
+                                     
+                                                     "myimg.height = myimg.height * (myimg.width/myimg.height);"
+                                                     "}"
+                                                     "}"
+                                                     "}\";"
+                                                     "document.getElementsByTagName('head')[0].appendChild(script);",ScreenWidth]
+     ];
+    
+    [webView stringByEvaluatingJavaScriptFromString:@"ResizeImages();"];
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

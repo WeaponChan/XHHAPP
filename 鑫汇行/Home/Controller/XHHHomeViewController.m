@@ -460,6 +460,13 @@ static int proPage = 0;
         CGFloat x = scrollView.contentOffset.x;
         int page = (x + scrollviewW / 2) /  scrollviewW;
         _midviewpagecontrol.currentPage = page;
+//        if (scrollView.contentOffset.x == 0){
+//            //当滚动到第一张的时候。滚到倒数第二张
+//            scrollView.contentOffset = CGPointMake(homeProArr.count*scrollView.frame.size.width, 0);
+//        }else if (scrollView.contentOffset.x == scrollView.frame.size.width * (homeProArr.count+1)){
+//            //当滚动到最后一张时。滚到第二张
+//            scrollView.contentOffset = CGPointMake(scrollView.frame.size.width, 0);
+//        }
         /*
         if (page == 0) {
             leftBtn.hidden = YES;
@@ -477,6 +484,24 @@ static int proPage = 0;
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     NSLog(@"开始拖拽");
     [self removeTimer];
+    if (scrollView == _imageScrollView) {
+        if (scrollView.contentOffset.x == 0){
+            //当滚动到第一张的时候。滚到倒数第二张
+            scrollView.contentOffset = CGPointMake(_imageArray.count*scrollView.frame.size.width, 0);
+        }else if (scrollView.contentOffset.x == scrollView.frame.size.width * (_imageArray.count+1)){
+            //当滚动到最后一张时。滚到第二张
+            scrollView.contentOffset = CGPointMake(scrollView.frame.size.width, 0);
+        }
+    }else{
+        if (scrollView.contentOffset.x == 0){
+            //当滚动到第一张的时候。滚到倒数第二张
+            scrollView.contentOffset = CGPointMake(homeProArr.count*scrollView.frame.size.width, 0);
+        }else if (scrollView.contentOffset.x == scrollView.frame.size.width * (homeProArr.count)){
+            //当滚动到最后一张时。滚到第二张
+            scrollView.contentOffset = CGPointMake(scrollView.frame.size.width, 0);
+        }
+    }
+    
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate

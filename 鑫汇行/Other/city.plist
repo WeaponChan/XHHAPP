@@ -5,6 +5,26 @@
 	<dict>
 		<key>cities</key>
 		<array>
+			<string>苏州</string>
+			<string>盐城</string>
+			<string>无锡</string>
+			<string>宿迁</string>
+			<string>扬州</string>
+			<string>镇江</string>
+			<string>南京</string>
+			<string>徐州</string>
+			<string>泰州</string>
+			<string>南通</string>
+			<string>常州</string>
+			<string>淮安</string>
+			<string>连云港</string>
+		</array>
+		<key>state</key>
+		<string>江苏</string>
+	</dict>
+	<dict>
+		<key>cities</key>
+		<array>
 			<string>通州</string>
 			<string>房山</string>
 			<string>昌平</string>
@@ -170,26 +190,6 @@
 		</array>
 		<key>state</key>
 		<string>广东</string>
-	</dict>
-	<dict>
-		<key>cities</key>
-		<array>
-			<string>连云港</string>
-			<string>盐城</string>
-			<string>无锡</string>
-			<string>宿迁</string>
-			<string>扬州</string>
-			<string>镇江</string>
-			<string>南京</string>
-			<string>徐州</string>
-			<string>泰州</string>
-			<string>南通</string>
-			<string>常州</string>
-			<string>淮安</string>
-			<string>苏州</string>
-		</array>
-		<key>state</key>
-		<string>江苏</string>
 	</dict>
 	<dict>
 		<key>cities</key>
