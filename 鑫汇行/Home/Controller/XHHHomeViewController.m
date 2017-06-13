@@ -438,7 +438,7 @@ static int proPage = 0;
     }
     
     CGFloat x = page * _imageScrollView.frame.size.width;
-    [_imageScrollView  setContentOffset:CGPointMake(x, 0) animated:YES];
+    [_imageScrollView  setContentOffset:CGPointMake(x, 0) animated:NO];
     
 }
 //关闭定时器
@@ -449,63 +449,94 @@ static int proPage = 0;
 
 #pragma mark ScrollView代理方法开始
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
+
     if (scrollView == _imageScrollView) {
         CGFloat scrollviewW =  scrollView.frame.size.width;
         CGFloat x = scrollView.contentOffset.x;
         int page = (x + scrollviewW / 2) /  scrollviewW;
         _pagecontrol.currentPage = page;
+        
     }else if(scrollView == _midViewScrollView){
         CGFloat scrollviewW =  scrollView.frame.size.width;
         CGFloat x = scrollView.contentOffset.x;
         int page = (x + scrollviewW / 2) /  scrollviewW;
         _midviewpagecontrol.currentPage = page;
-//        if (scrollView.contentOffset.x == 0){
-//            //当滚动到第一张的时候。滚到倒数第二张
-//            scrollView.contentOffset = CGPointMake(homeProArr.count*scrollView.frame.size.width, 0);
-//        }else if (scrollView.contentOffset.x == scrollView.frame.size.width * (homeProArr.count+1)){
-//            //当滚动到最后一张时。滚到第二张
-//            scrollView.contentOffset = CGPointMake(scrollView.frame.size.width, 0);
-//        }
-        /*
-        if (page == 0) {
-            leftBtn.hidden = YES;
-        }else{
-            leftBtn.hidden = NO;
-        }
-        if (page == 2) {
-            rightBtn.hidden = YES;
-        }else{
-            rightBtn.hidden = NO;
-        }*/
     }
  
 }
+
+-(void)rightimageAction{
+    NSLog(@"right");
+    int page = (int)_imageArray.count-1;
+    CGFloat x = page * _imageScrollView.frame.size.width;
+    [_imageScrollView  setContentOffset:CGPointMake(x, 0) animated:NO];
+    _pagecontrol.currentPage = page;
+}
+-(void)leftimageAction{
+    NSLog(@"left");
+    int page = 0;
+    CGFloat x = page * _imageScrollView.frame.size.width;
+    [_imageScrollView  setContentOffset:CGPointMake(x, 0) animated:NO];
+    _pagecontrol.currentPage = page;
+}
+
+-(void)rightmidViewAction{
+    NSLog(@"right");
+    int page = (int)homeProArr.count-1;
+    CGFloat x = page * _midViewScrollView.frame.size.width;
+    [_midViewScrollView  setContentOffset:CGPointMake(x, 0) animated:NO];
+    _pagecontrol.currentPage = page;
+    
+}
+-(void)leftmidViewAction{
+    NSLog(@"left");
+    int page = 0;
+    CGFloat x = page * _midViewScrollView.frame.size.width;
+    [_midViewScrollView  setContentOffset:CGPointMake(x, 0) animated:NO];
+    _pagecontrol.currentPage = page;
+}
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    NSLog(@"开始拖拽");
+    NSLog(@"------1");
     [self removeTimer];
+    CGFloat scrollviewW =  scrollView.frame.size.width;
+    CGFloat x = scrollView.contentOffset.x;
+    int page = (x + scrollviewW / 2) /  scrollviewW;
     if (scrollView == _imageScrollView) {
-        if (scrollView.contentOffset.x == 0){
-            //当滚动到第一张的时候。滚到倒数第二张
-            scrollView.contentOffset = CGPointMake(_imageArray.count*scrollView.frame.size.width, 0);
-        }else if (scrollView.contentOffset.x == scrollView.frame.size.width * (_imageArray.count+1)){
-            //当滚动到最后一张时。滚到第二张
-            scrollView.contentOffset = CGPointMake(scrollView.frame.size.width, 0);
+        if (page == 0) {
+            UISwipeGestureRecognizer *rightRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(rightimageAction)];
+            
+            [rightRecognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
+            [_imageScrollView addGestureRecognizer:rightRecognizer];
+        }else if (page == _imageArray.count -1){
+            UISwipeGestureRecognizer *leftRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(leftimageAction)];
+            
+            [leftRecognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+            [_imageScrollView addGestureRecognizer:leftRecognizer];
         }
-    }else{
-        if (scrollView.contentOffset.x == 0){
-            //当滚动到第一张的时候。滚到倒数第二张
-            scrollView.contentOffset = CGPointMake(homeProArr.count*scrollView.frame.size.width, 0);
-        }else if (scrollView.contentOffset.x == scrollView.frame.size.width * (homeProArr.count)){
-            //当滚动到最后一张时。滚到第二张
-            scrollView.contentOffset = CGPointMake(scrollView.frame.size.width, 0);
+    }else if(scrollView == _midViewScrollView){
+        if (page == 0) {
+            UISwipeGestureRecognizer *rightRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(rightmidViewAction)];
+            
+            [rightRecognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
+            [_midViewScrollView addGestureRecognizer:rightRecognizer];
+        }else if (page == homeProArr.count -1){
+            UISwipeGestureRecognizer *leftRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(leftmidViewAction)];
+            
+            [leftRecognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+            [_midViewScrollView addGestureRecognizer:leftRecognizer];
         }
+    
     }
     
 }
 
+-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    NSLog(@"------3");
+}
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
+    NSLog(@"------2");
     [self addTimer];
     
     
