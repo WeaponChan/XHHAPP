@@ -8,8 +8,10 @@
 
 #import "XHHDaikuanViewController.h"
 #import "UIColor+LhkhColor.h"
+#import "MBProgressHUD+Add.h"
 @interface XHHDaikuanViewController ()<UIWebViewDelegate>
 @property (nonatomic,strong)UIWebView *webView;
+
 @end
 
 @implementation XHHDaikuanViewController
@@ -32,6 +34,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
+
     [self closeLoadingView];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     
@@ -39,13 +42,12 @@
                                                      "script.type = 'text/javascript';"
                                                      "script.text = \"function ResizeImages() { "
                                                      "var myimg,oldwidth;"
-                                                     "var maxwidth=%f;" //缩放系数
+                                                     "var maxwidth=%f;" 
                                                      "for(i=0;i <document.images.length;i++){"
                                                      "myimg = document.images[i];"
                                                      "if(myimg.width > maxwidth){"
                                                      "oldwidth = myimg.width;"
                                                      "myimg.width = maxwidth;"
-                                                     //                                                     "myimg.height = myimg.height * (maxwidth/oldwidth);"
                                                      "myimg.height = myimg.height * (myimg.width/myimg.height);"
                                                      "}"
                                                      "}"
@@ -54,7 +56,6 @@
      ];
     
     [webView stringByEvaluatingJavaScriptFromString:@"ResizeImages();"];
-    
     
 }
 

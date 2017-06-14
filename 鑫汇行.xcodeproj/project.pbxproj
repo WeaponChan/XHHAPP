@@ -143,6 +143,8 @@
 		40ABD41B1ECC2BE30061D2C2 /* XHHMidView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40ABD41A1ECC2BE30061D2C2 /* XHHMidView.m */; };
 		40ABD41E1ECC2D2F0061D2C2 /* XHHMidViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 40ABD41D1ECC2D2F0061D2C2 /* XHHMidViewModel.m */; };
 		40B455451ED6D50E0076EB60 /* XHHMyinfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 40B455441ED6D50E0076EB60 /* XHHMyinfoModel.m */; };
+		40C2F5C21EF1183800DC386E /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40C2F5C11EF1183800DC386E /* JavaScriptCore.framework */; };
+		40C2F5C41EF1279E00DC386E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40C2F5C31EF1279E00DC386E /* MessageUI.framework */; };
 		D733420DA39540D9258C0BE1 /* libPods-鑫汇行.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FFA9C50775313A57A5EAAE5 /* libPods-鑫汇行.a */; };
 /* End PBXBuildFile section */
 
@@ -404,6 +406,8 @@
 		40ABD41D1ECC2D2F0061D2C2 /* XHHMidViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHHMidViewModel.m; sourceTree = "<group>"; };
 		40B455431ED6D50E0076EB60 /* XHHMyinfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHHMyinfoModel.h; sourceTree = "<group>"; };
 		40B455441ED6D50E0076EB60 /* XHHMyinfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHHMyinfoModel.m; sourceTree = "<group>"; };
+		40C2F5C11EF1183800DC386E /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		40C2F5C31EF1279E00DC386E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		A79B331DA371CE06D040A813 /* Pods-鑫汇行.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-鑫汇行.debug.xcconfig"; path = "Pods/Target Support Files/Pods-鑫汇行/Pods-鑫汇行.debug.xcconfig"; sourceTree = "<group>"; };
 		F14A9B2F1393F87CA428E1C8 /* Pods-鑫汇行.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-鑫汇行.release.xcconfig"; path = "Pods/Target Support Files/Pods-鑫汇行/Pods-鑫汇行.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -413,6 +417,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40C2F5C41EF1279E00DC386E /* MessageUI.framework in Frameworks */,
+				40C2F5C21EF1183800DC386E /* JavaScriptCore.framework in Frameworks */,
 				D733420DA39540D9258C0BE1 /* libPods-鑫汇行.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -972,6 +978,8 @@
 		8229B6C39C833BF23DF7C206 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				40C2F5C31EF1279E00DC386E /* MessageUI.framework */,
+				40C2F5C11EF1183800DC386E /* JavaScriptCore.framework */,
 				1FFA9C50775313A57A5EAAE5 /* libPods-鑫汇行.a */,
 			);
 			name = Frameworks;
