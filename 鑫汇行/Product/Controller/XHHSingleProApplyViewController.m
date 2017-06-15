@@ -16,6 +16,7 @@
 #import "LhkhHttpsManager.h"
 #import "MBProgressHUD+Add.h"
 #import "UIImageView+WebCache.h"
+#import "AppDelegate.h"
 #define CELL_WIDTH (ScreenWidth - 120) / 3
 
 @interface XHHSingleProApplyViewController ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource,UIGestureRecognizerDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDelegateFlowLayout>{
@@ -58,6 +59,7 @@
     
     NSString *listStr;
     NSString *urlStr;
+    BOOL isApplySus;
 }
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)NSMutableArray *pro_applyArr;
@@ -277,7 +279,6 @@ static int count = 4;
         if (selectimage0) {
             cell.addImg.hidden = NO;
             cell.addImg.image = selectimage0;
-//            [cell.addImg sd_setImageWithURL:[NSURL URLWithString:imgStr0] placeholderImage:[UIImage imageNamed:@""]];
             cell.addLab.hidden = YES;
             cell.plusImg.hidden = YES;
         }else{
@@ -569,6 +570,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 
 //申请
 -(void)applyAct{
+   
     NSString *regex = @"[a-zA-Z. ]*";
     NSPredicate *Engpredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
     NSString *match = @"(^[\u4e00-\u9fa5]+$)";
@@ -631,15 +633,32 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         NSLog(@"-----apply=%@",responseObject);
         if ([responseObject[@"status"] isEqualToString:@"1"]) {
             if (responseObject[@"list"]) {
-                
                 [MBProgressHUD show:@"申请成功" view:self.view];
+                user_name.text = @"";
+                icard.text = @"";
+                tel_phone.text = @"";
+                order_money.text = @"";
+                selectimage0 = [UIImage imageNamed:@""];
+                selectimage1 = [UIImage imageNamed:@""];
+                selectimage2 = [UIImage imageNamed:@""];
+                selectimage3 = [UIImage imageNamed:@""];
+                selectimage4 = [UIImage imageNamed:@""];
+                selectimage5 = [UIImage imageNamed:@""];
+                selectimage6 = [UIImage imageNamed:@""];
+                selectimage7 = [UIImage imageNamed:@""];
+                selectimage8 = [UIImage imageNamed:@""];
+                [self.tableView reloadData];
+                
             }else{
+                isApplySus = NO;
                 [MBProgressHUD show:@"申请失败，请重新申请" view:self.view];
             }
         }else{
+            isApplySus = NO;
             [MBProgressHUD show:@"申请失败，请重新申请" view:self.view];
         }
     } failure:^(NSError *error) {
+        isApplySus = NO;
         NSString *str = [NSString stringWithFormat:@"%@",error];
         [MBProgressHUD show:str view:self.view];
     }];

@@ -135,7 +135,7 @@
             cell.infoLab.text = self.orderDetailModel.user_name;
         }else if (indexPath.row == 1){
             cell.titleLab.text = @"身份证号";
-            cell.infoLab.text = @"352468549571256548";
+            cell.infoLab.text = self.orderDetailModel.icard;
         }else if (indexPath.row == 2){
             cell.titleLab.text = @"手机号";
             cell.infoLab.text = self.orderDetailModel.phone;

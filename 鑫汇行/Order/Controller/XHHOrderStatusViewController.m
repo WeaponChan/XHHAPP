@@ -82,7 +82,7 @@
     NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     params[@"action"] = @(1007);
     params[@"key"] = user_key;
-    params[@"phone"] = @(user.integerValue);//user.integerValue
+    params[@"phone"] = @(user.integerValue);
     params[@"status"] = @(self.type);
     params[@"page_num"] = @(0);
     params[@"list_rows"] = @(8);
@@ -115,7 +115,7 @@
     NSString *user_key =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_KEY"];
     params[@"action"] = @(1007);
     params[@"key"] = user_key;
-    params[@"phone"] = @(user.integerValue);//user.integerValue
+    params[@"phone"] = @(user.integerValue);
     params[@"status"] = @(self.type);
     NSInteger page = self.page_num + 1;
     params[@"page_num"] = @(page);
@@ -127,7 +127,7 @@
         if (self.params != params) return;
         [self.tableView.mj_header endRefreshing];
         self.page_num = page;
-        _orderList = [XHHOrderModel mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
+        [_orderList addObjectsFromArray: [XHHOrderModel mj_objectArrayWithKeyValuesArray:responseObject[@"list"]]];
         NSString *totalnum = responseObject[@"totalnum"];
         if ([totalnum isEqualToString:@"0"] ) {
             MJRefreshAutoNormalFooter *footer = (MJRefreshAutoNormalFooter *)self.tableView.mj_footer;

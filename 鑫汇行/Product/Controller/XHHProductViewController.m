@@ -21,7 +21,7 @@
 }
 @property (nonatomic,strong)UITableView *tableView;
 @end
-
+static NSInteger page = 0;
 @implementation XHHProductViewController
 
 - (void)viewDidLoad {
@@ -33,11 +33,34 @@
 }
 
 -(void)loadData{
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1004",XHHBaseUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1004&page_num=0&list_rows=8",XHHBaseUrl];
     [LhkhHttpsManager requestWithURLString:url parameters:nil type:1 success:^(id responseObject) {
         NSLog(@"-----product=%@",responseObject);
         [self.tableView.mj_header endRefreshing];
         productList = [XHHProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
+        
+        NSString *totalnum = responseObject[@"totalnum"];
+        if ([totalnum isEqualToString:@"0"] ) {
+            MJRefreshAutoNormalFooter *footer = (MJRefreshAutoNormalFooter *)self.tableView.mj_footer;
+            footer.stateLabel.text = @"没有更多了";
+        }
+        page = 0;
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        NSString *str = [NSString stringWithFormat:@"%@",error];
+        [MBProgressHUD show:str view:self.view];
+    }];
+    
+}
+
+-(void)loadMoreData{
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1004&page_num=%ld&list_rows=8",XHHBaseUrl,page];
+    [LhkhHttpsManager requestWithURLString:url parameters:nil type:1 success:^(id responseObject) {
+        NSLog(@"-----product=%@",responseObject);
+        [self.tableView.mj_header endRefreshing];
+      
+        [productList addObjectsFromArray:[XHHProductModel mj_objectArrayWithKeyValuesArray:responseObject[@"list"]]];
+        
         NSString *totalnum = responseObject[@"totalnum"];
         if ([totalnum isEqualToString:@"0"] ) {
             MJRefreshAutoNormalFooter *footer = (MJRefreshAutoNormalFooter *)self.tableView.mj_footer;
@@ -75,6 +98,8 @@
 
 -(MJRefreshAutoNormalFooter *)loadMoreDataFooterWith:(UIScrollView *)scrollView {
     MJRefreshAutoNormalFooter *loadMoreFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        page++;
+        [self loadMoreData];
         [scrollView.mj_footer endRefreshing];
     }];
     
