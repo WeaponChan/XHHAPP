@@ -409,14 +409,7 @@ static int count = 4;
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"----->%ld",indexPath.row);
     selectindex = indexPath.row;
-    NSDictionary *dic = _pro_applyArr[indexPath.row];
-    NSString *str = dic[@"name"];
-    if (listStr == nil) {
-       listStr = [NSString stringWithFormat:@"%@",str];
-    }else{
-       listStr = [NSString stringWithFormat:@"%@,%@",listStr,str];
-    }
-    NSLog(@"----listStr=%@",listStr);
+    
     [self selectImage];
 }
 
@@ -547,6 +540,14 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
                     imgStr8 = listUrl;
                     isSelectImg8 = YES;
                 }
+                NSDictionary *dic = _pro_applyArr[selectindex];
+                NSString *str = dic[@"name"];
+                if (listStr == nil) {
+                    listStr = [NSString stringWithFormat:@"%@",str];
+                }else{
+                    listStr = [NSString stringWithFormat:@"%@,%@",listStr,str];
+                }
+                NSLog(@"----listStr=%@",listStr);
                 if (urlStr == nil) {
                     urlStr = [NSString stringWithFormat:@"%@",listUrl];
                 }else{
@@ -625,7 +626,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     applyparams[@"icard"] = icard.text;
     applyparams[@"order_money"] = @(order_money.text.integerValue);
     applyparams[@"material_name"] = listStr;
-    applyparams[@"material_pic"] = [NSString stringWithFormat:@"%@,%@,%@",imgStr0,imgStr1,imgStr2];
+    applyparams[@"material_pic"] = urlStr;
     applyparams[@"pro_id"] = @(pro_id.integerValue);
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1017&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     NSLog(@"----params=%@",applyparams);
