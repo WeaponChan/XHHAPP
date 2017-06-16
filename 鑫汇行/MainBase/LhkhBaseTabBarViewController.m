@@ -128,7 +128,7 @@
     NSLog(@"-----点击了%@---user-->%@",item.title,user);
     
     if ([item.title isEqualToString:@"订单"] || [item.title isEqualToString:@"我的"]) {
-        if (user.length > 0) {
+        if (user.length > 0 && ![user isEqualToString:@""] && user != nil) {
             
         }else{
             [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];

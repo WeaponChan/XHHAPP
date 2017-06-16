@@ -49,7 +49,7 @@
     [[NSUserDefaults standardUserDefaults]setObject:status forKey:@"status"];
     NSString *user = [[NSUserDefaults standardUserDefaults] objectForKey:@"USER"];
     NSLog(@"----user--->%@",user);
-    if (user.length>0) {
+    if (user.length>0 && ![user isEqualToString:@""] && user != nil) {
         [self openTabHomeCtrl];
     }else{
         [self openLoginCtrl];
