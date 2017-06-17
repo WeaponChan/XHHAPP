@@ -20,6 +20,7 @@
 #import "XHHOrderDetailModel.h"
 #import "XHHInspectImage.h"
 #import "UIImageView+WebCache.h"
+#import "AppDelegate.h"
 @interface XHHOrderDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic, strong) NSDictionary *params;
@@ -75,18 +76,27 @@
     [LhkhHttpsManager requestWithURLString:url parameters:params type:1 success:^(id responseObject) {
         NSLog(@"-----orderDetail=%@",responseObject);
         [self.tableView.mj_header endRefreshing];
-        if (responseObject[@"list"] && [responseObject[@"list"] isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *data = [responseObject objectForKey:@"list"];
-            NSDictionary *detail = data[@"order_info"];
-            self.orderDetailModel = [XHHOrderDetailModel mj_objectWithKeyValues:detail];
-            self.userPicsArr = responseObject[@"list"][@"user_pics"];
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            if (responseObject[@"list"] && [responseObject[@"list"] isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *data = [responseObject objectForKey:@"list"];
+                NSDictionary *detail = data[@"order_info"];
+                self.orderDetailModel = [XHHOrderDetailModel mj_objectWithKeyValues:detail];
+                self.userPicsArr = responseObject[@"list"][@"user_pics"];
+            }
+            NSString *totalnum = responseObject[@"totalnum"];
+            if ([totalnum isEqualToString:@"0"] ) {
+                MJRefreshAutoNormalFooter *footer = (MJRefreshAutoNormalFooter *)self.tableView.mj_footer;
+                footer.stateLabel.text = @"没有更多了";
+            }
+            [self.tableView reloadData];
+        }else if ([responseObject[@"status"] isEqualToString:@"3"]){
+            
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+        }else{
+            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
-        NSString *totalnum = responseObject[@"totalnum"];
-        if ([totalnum isEqualToString:@"0"] ) {
-            MJRefreshAutoNormalFooter *footer = (MJRefreshAutoNormalFooter *)self.tableView.mj_footer;
-            footer.stateLabel.text = @"没有更多了";
-        }
-        [self.tableView reloadData];
+        
     } failure:^(NSError *error) {
         NSString *str = [NSString stringWithFormat:@"%@",error];
         [MBProgressHUD show:str view:self.view];

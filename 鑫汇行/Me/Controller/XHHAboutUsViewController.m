@@ -9,6 +9,8 @@
 #import "XHHAboutUsViewController.h"
 #import "UIColor+LhkhColor.h"
 #import "LhkhHttpsManager.h"
+#import "AppDelegate.h"
+#import "MBProgressHUD+Add.h"
 @interface XHHAboutUsViewController ()<UIWebViewDelegate>
 @property (nonatomic,strong)UIWebView *webView;
 
@@ -43,9 +45,19 @@
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1006&key=%@&phone=%@&news_id=1",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:nil type:1 success:^(id responseObject) {
         NSLog(@"----aboutusresponseObject=%@",responseObject);
-        NSString *htmlCode = [responseObject objectForKey:@"list"];
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:htmlCode]];
-        [self.webView loadRequest:request];
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            NSString *htmlCode = [responseObject objectForKey:@"list"];
+            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:htmlCode]];
+            [self.webView loadRequest:request];
+        }
+        else if ([responseObject[@"status"] isEqualToString:@"3"]){
+            
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+        }else{
+            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
+        }
+        
     } failure:^(NSError *error) {
         
     }];

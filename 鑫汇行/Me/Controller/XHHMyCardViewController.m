@@ -16,6 +16,7 @@
 #import "MBProgressHUD+Add.h"
 #import "MJExtension.h"
 #import "MJRefresh.h"
+#import "AppDelegate.h"
 @interface XHHMyCardViewController ()<UITableViewDelegate,UITableViewDataSource,returnValueDelegate,UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource>{
     UIView *headView;
     UIView *view1;
@@ -64,15 +65,6 @@
     [self setblackView];
     [self setTextview];
     [self loadData];
-//    if (self.isHaveCard == YES) {
-//        self.blankView.hidden = YES;
-//        headView.hidden = NO;
-//        self.tableView.hidden = NO;
-//    }else{
-//        self.blankView.hidden = NO;
-//        headView.hidden = YES;
-//        self.tableView.hidden = YES;
-//    }
     self.blankView.hidden = YES;
     headView.hidden = YES;
     self.tableView.hidden = YES;
@@ -91,36 +83,49 @@
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1019&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
         NSLog(@"-----bankcard=%@",responseObject);
-        if (responseObject[@"list"]) {
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            if (responseObject[@"list"]) {
+                [self closeLoadingView];
+                self.blankView.hidden = YES;
+                headView.hidden = NO;
+                self.tableView.hidden = NO;
+                
+                NSDictionary *dic = responseObject[@"list"];
+                IDcard.text = dic[@"icard"];
+                userName.text = dic[@"name"];
+                bankcard.text = dic[@"bankcard"];
+                bankbranch.text = dic[@"bank_branch"];
+                bankName.text = dic[@"bank_name"];
+                province.text = [NSString stringWithFormat:@"%@%@",dic[@"province"],dic[@"city"]];
+                text1.text = dic[@"province"];
+                text2.text = dic[@"city"];
+                cardid = dic[@"id"];
+                userName.enabled = NO;
+                IDcard.enabled = NO;
+                bankcard.enabled = NO;
+                bankbranch.enabled = NO;
+                bankName.enabled = NO;
+                province.enabled = NO;
+            }else{
+                [self closeLoadingView];
+                self.blankView.hidden = NO;
+                headView.hidden = YES;
+                self.tableView.hidden = YES;
+            }
+            [self.tableView reloadData];
+            [self.tableView.mj_header endRefreshing];
+        }else if ([responseObject[@"status"] isEqualToString:@"3"]){
             [self closeLoadingView];
-            self.blankView.hidden = YES;
-            headView.hidden = NO;
-            self.tableView.hidden = NO;
-            
-            NSDictionary *dic = responseObject[@"list"];
-            IDcard.text = dic[@"icard"];
-            userName.text = dic[@"name"];
-            bankcard.text = dic[@"bankcard"];
-            bankbranch.text = dic[@"bank_branch"];
-            bankName.text = dic[@"bank_name"];
-            province.text = [NSString stringWithFormat:@"%@%@",dic[@"province"],dic[@"city"]];
-            text1.text = dic[@"province"];
-            text2.text = dic[@"city"];
-            cardid = dic[@"id"];
-            userName.enabled = NO;
-            IDcard.enabled = NO;
-            bankcard.enabled = NO;
-            bankbranch.enabled = NO;
-            bankName.enabled = NO;
-            province.enabled = NO;
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
         }else{
             [self closeLoadingView];
             self.blankView.hidden = NO;
             headView.hidden = YES;
             self.tableView.hidden = YES;
+            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
-        [self.tableView reloadData];
-        [self.tableView.mj_header endRefreshing];
+        
     } failure:^(NSError *error) {
         [self closeLoadingView];
         self.blankView.hidden = NO;
@@ -609,6 +614,18 @@
             isModifySuc = YES;
             [self loadData];
             [MBProgressHUD show:@"修改成功" view:self.view];
+        }else if ([responseObject[@"status"] isEqualToString:@"3"]){
+            [self closeLoadingView];
+            userName.enabled = YES;
+            IDcard.enabled = YES;
+            bankcard.enabled = YES;
+            bankbranch.enabled = YES;
+            bankName.enabled = YES;
+            province.enabled = YES;
+            isModifySuc = NO;
+            isModify = NO;
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
         }else{
             [self closeLoadingView];
             userName.enabled = YES;

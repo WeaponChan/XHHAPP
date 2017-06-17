@@ -86,8 +86,15 @@
             [returnCashLab setAttributedText:textColor];
             
             [self.tableView reloadData];
+        }else if ([responseObject[@"status"] isEqualToString:@"3"]){
+            
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
         }else{
             returnCashLab.text  = @"累计返费";
+            headImg.image = [UIImage imageNamed:@"default"];
+            headImg.layer.borderColor = [UIColor whiteColor].CGColor;
+            headImg.layer.borderWidth = 2.f;
             [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
         [self.tableView.mj_header endRefreshing];
@@ -111,6 +118,10 @@
         if ([responseObject[@"status"] isEqualToString:@"1"]) {
             Messagenum = responseObject[@"list"][@"nums"];
             [self.tableView reloadData];
+        }else if ([responseObject[@"status"] isEqualToString:@"3"]){
+            
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
         }else{
             [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
@@ -443,42 +454,51 @@
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1018&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:1 success:^(id responseObject) {
         NSLog(@"-----kefu=%@",responseObject);
-        if (responseObject[@"list"]) {
-            NSDictionary *dic = responseObject[@"list"];
-            NSString *namestr = dic[@"admin_name"];
-            NSString *tel = dic[@"phone"];
-            NSString *qq = dic[@"qq"];
-            NSString *title = nil;
-            if ([str isEqualToString:@"1"]) {
-                title = [NSString stringWithFormat:@"团队长：%@",namestr];
-            }else{
-                title = [NSString stringWithFormat:@"客服：%@",namestr];
-            }
-            
-            LhkhAlertViewController *vc = [LhkhAlertViewController alertVcWithTitle:title message:tel AndAlertDoneAction:^(NSInteger tag) {
-                if (tag == 100) {
-                    NSLog(@"------点击了取消");
-                }else if (tag == 101){
-                    NSLog(@"------点击了确定");
-                    NSString *phoneNum = tel;
-                    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@",phoneNum]];
-                    [[UIApplication sharedApplication] openURL:url];
+        if ([responseObject [@"status"] isEqualToString:@"1"]) {
+            if (responseObject[@"list"]) {
+                NSDictionary *dic = responseObject[@"list"];
+                NSString *namestr = dic[@"admin_name"];
+                NSString *tel = dic[@"phone"];
+                NSString *qq = dic[@"qq"];
+                NSString *title = nil;
+                if ([str isEqualToString:@"1"]) {
+                    title = [NSString stringWithFormat:@"团队长：%@",namestr];
                 }else{
-                    NSLog(@"------点击了qq客服");
-                    if([XHChatQQ haveQQ])//是否有安装QQ客户端
-                    {
-                        
-                        [XHChatQQ chatWithQQ:qq];
-                    }
-                    else
-                    {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"您的设备尚未安装QQ客户端,不能进行QQ临时会话" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                        [alert show];
-                    }
+                    title = [NSString stringWithFormat:@"客服：%@",namestr];
                 }
-            }];
-            [self showTransparentController:vc];
+                
+                LhkhAlertViewController *vc = [LhkhAlertViewController alertVcWithTitle:title message:tel AndAlertDoneAction:^(NSInteger tag) {
+                    if (tag == 100) {
+                        NSLog(@"------点击了取消");
+                    }else if (tag == 101){
+                        NSLog(@"------点击了确定");
+                        NSString *phoneNum = tel;
+                        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@",phoneNum]];
+                        [[UIApplication sharedApplication] openURL:url];
+                    }else{
+                        NSLog(@"------点击了qq客服");
+                        if([XHChatQQ haveQQ])//是否有安装QQ客户端
+                        {
+                            
+                            [XHChatQQ chatWithQQ:qq];
+                        }
+                        else
+                        {
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"您的设备尚未安装QQ客户端,不能进行QQ临时会话" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                            [alert show];
+                        }
+                    }
+                }];
+                [self showTransparentController:vc];
+            }
+        }else if ([responseObject[@"status"] isEqualToString:@"3"]){
+            
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+        }else{
+            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
+        
     } failure:^(NSError *error) {
         NSString *str = [NSString stringWithFormat:@"%@",error];
         [MBProgressHUD show:str view:self.view];

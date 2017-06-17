@@ -17,6 +17,7 @@
 #import "MJExtension.h"
 #import "MJRefresh.h"
 #import "UIImageView+WebCache.h"
+#import "AppDelegate.h"
 #import <AssetsLibrary/ALAsset.h>
 
 #import <AssetsLibrary/ALAssetsLibrary.h>
@@ -488,8 +489,17 @@ UIPickerViewDelegate,UIPickerViewDataSource,UIImagePickerControllerDelegate,UINa
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1010&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:1 success:^(id responseObject) {
         NSLog(@"-----myinfo=%@",responseObject);
-        self.myInfoModel = [XHHMyinfoModel mj_objectWithKeyValues:responseObject[@"list"]];
-        [self.tableView reloadData];
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            self.myInfoModel = [XHHMyinfoModel mj_objectWithKeyValues:responseObject[@"list"]];
+            [self.tableView reloadData];
+        }
+        else if ([responseObject[@"status"] isEqualToString:@"3"]){
+            
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+        }else{
+            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
+        }
         [self.tableView.mj_header endRefreshing];
     } failure:^(NSError *error) {
         NSString *str = [NSString stringWithFormat:@"%@",error];
@@ -528,6 +538,10 @@ UIPickerViewDelegate,UIPickerViewDataSource,UIImagePickerControllerDelegate,UINa
             }else{
                 [MBProgressHUD show:@"修改失败，请重新修改" view:self.view];
             }
+        }else if ([responseObject[@"status"] isEqualToString:@"3"]){
+            
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
         }else{
             [MBProgressHUD show:@"修改失败，请重新修改" view:self.view];
         }

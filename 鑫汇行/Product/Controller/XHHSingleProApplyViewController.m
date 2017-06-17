@@ -559,6 +559,9 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
             }else{
                 [MBProgressHUD show:@"上传失败，请重新上传" view:self.view];
             }
+        }else if ([responseObject[@"status"] isEqualToString:@"3"]){
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
         }else{
             [MBProgressHUD show:@"上传失败，请重新上传" view:self.view];
         }
@@ -651,15 +654,16 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
                 [self.tableView reloadData];
                 
             }else{
-                isApplySus = NO;
                 [MBProgressHUD show:@"申请失败，请重新申请" view:self.view];
             }
+        }else if ([responseObject[@"status"] isEqualToString:@"3"]){
+            
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
         }else{
-            isApplySus = NO;
             [MBProgressHUD show:@"申请失败，请重新申请" view:self.view];
         }
     } failure:^(NSError *error) {
-        isApplySus = NO;
         NSString *str = [NSString stringWithFormat:@"%@",error];
         [MBProgressHUD show:str view:self.view];
     }];

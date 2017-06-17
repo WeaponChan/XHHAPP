@@ -368,7 +368,7 @@ static int proPage = 0;
             CGSize theSize = [promodel.pro_smalltxt boundingRectWithSize:CGSizeMake(ScreenWidth, 999999.0f) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesDeviceMetrics | NSStringDrawingTruncatesLastVisibleLine attributes:attribute context:nil].size;
             
             height = theSize.height;
-            NSLog(@"%f",height);
+//            NSLog(@"%f",height);
             
             [_midViewScrollView addSubview:view];
         }

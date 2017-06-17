@@ -16,6 +16,7 @@
 #import "MBProgressHUD+Add.h"
 #import "MJExtension.h"
 #import "MJRefresh.h"
+#import "AppDelegate.h"
 @interface XHHAddCardViewController ()<UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource>{
     UIView *headView;
     UIButton *getBtn;
@@ -548,6 +549,11 @@
                 [self.delegate returnValue:@"1"];
             }
             [self.navigationController popViewControllerAnimated:NO];
+        }else if ([responseObject[@"status"] isEqualToString:@"3"]){
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+        }else{
+            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
         
     } failure:^(NSError *error) {
@@ -613,6 +619,9 @@
             [MBProgressHUD show:[NSString stringWithFormat:@"验证码%@",responseObject[@"msg"]] view:self.view];
             [self startTimer];
             timeLab.text = @"60";
+        }else if ([responseObject[@"status"] isEqualToString:@"3"]) {
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
         }else{
             [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }

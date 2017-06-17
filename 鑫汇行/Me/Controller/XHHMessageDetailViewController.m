@@ -11,6 +11,7 @@
 #import "Masonry.h"
 #import "LhkhHttpsManager.h"
 #import "MBProgressHUD+Add.h"
+#import "AppDelegate.h"
 @interface XHHMessageDetailViewController (){
 
     UILabel *titleLab;
@@ -84,12 +85,18 @@
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1021",XHHBaseUrl];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
         NSLog(@"-----messagedetail=%@",responseObject);
-        if (responseObject[@"list"]) {
-            titleLab.text = responseObject[@"list"][@"title"];
-            timeLab.text = responseObject[@"list"][@"addtime"];
-            messageLab.text = responseObject[@"list"][@"content"];
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            if (responseObject[@"list"]) {
+                titleLab.text = responseObject[@"list"][@"title"];
+                timeLab.text = responseObject[@"list"][@"addtime"];
+                messageLab.text = responseObject[@"list"][@"content"];
+            }
+        }else if ([responseObject[@"status"] isEqualToString:@"3"]) {
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+        }else{
+            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
-     
     } failure:^(NSError *error) {
         NSString *str = [NSString stringWithFormat:@"%@",error];
         [MBProgressHUD show:str view:self.view];

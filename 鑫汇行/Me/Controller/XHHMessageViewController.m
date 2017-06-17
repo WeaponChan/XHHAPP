@@ -15,6 +15,7 @@
 #import "MJExtension.h"
 #import "LhkhHttpsManager.h"
 #import "MBProgressHUD+Add.h"
+#import "AppDelegate.h"
 @interface XHHMessageViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,strong)NSMutableArray *messageArr;
@@ -45,13 +46,21 @@
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1015",XHHBaseUrl];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:1 success:^(id responseObject) {
         NSLog(@"-----message=%@",responseObject);
-        if (responseObject[@"list"] && [responseObject[@"list"] isKindOfClass:[NSArray class]]) {
-            NSArray *arr = responseObject[@"list"];
-            [_messageArr removeAllObjects];
-            [_messageArr addObjectsFromArray:arr];
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            if (responseObject[@"list"] && [responseObject[@"list"] isKindOfClass:[NSArray class]]) {
+                NSArray *arr = responseObject[@"list"];
+                [_messageArr removeAllObjects];
+                [_messageArr addObjectsFromArray:arr];
+            }
+            
+            [self.tableView reloadData];
         }
-        
-        [self.tableView reloadData];
+        else if ([responseObject[@"status"] isEqualToString:@"3"]) {
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+        }else{
+            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
+        }
         [self.tableView.mj_header endRefreshing];
     } failure:^(NSError *error) {
         NSString *str = [NSString stringWithFormat:@"%@",error];

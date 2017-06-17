@@ -12,6 +12,7 @@
 #import "MBProgressHUD+Add.h"
 #import "UIImageView+WebCache.h"
 #import "QRCodeGenerator.h"
+#import "AppDelegate.h"
 @interface XHHInvitefriViewController ()
 {
     UIControl *_blackView;
@@ -55,10 +56,18 @@
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1014&key=%@&phone=11377606508",XHHBaseUrl,user_key];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
         NSLog(@"-----Invite=%@",responseObject);
-        NSString *bannerUrl = responseObject[@"list"][@"pic"];
-        NSString *erweimaUrl = responseObject[@"list"][@"yqm_url"];
-        [self.headBannerImg sd_setImageWithURL:[NSURL URLWithString:bannerUrl] placeholderImage:[UIImage imageNamed:@"default"]];
-        self.erweimaImg.image = [QRCodeGenerator qrImageForString:erweimaUrl imageSize:self.erweimaImg.bounds.size.width];
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            NSString *bannerUrl = responseObject[@"list"][@"pic"];
+            NSString *erweimaUrl = responseObject[@"list"][@"yqm_url"];
+            [self.headBannerImg sd_setImageWithURL:[NSURL URLWithString:bannerUrl] placeholderImage:[UIImage imageNamed:@"default"]];
+            self.erweimaImg.image = [QRCodeGenerator qrImageForString:erweimaUrl imageSize:self.erweimaImg.bounds.size.width];
+        }else if ([responseObject[@"status"] isEqualToString:@"3"]){
+            [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+        }else{
+            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
+        }
+        
         
     } failure:^(NSError *error) {
         NSString *str = [NSString stringWithFormat:@"%@",error];
