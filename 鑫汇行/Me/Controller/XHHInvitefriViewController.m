@@ -13,9 +13,12 @@
 #import "UIImageView+WebCache.h"
 #import "QRCodeGenerator.h"
 #import "AppDelegate.h"
-@interface XHHInvitefriViewController ()
+#import "WXApi.h"
+@interface XHHInvitefriViewController ()<WXDelegate>
 {
+    AppDelegate *appdelegate;
     UIControl *_blackView;
+    NSString *yqm_url;
 }
 @property (nonatomic, strong) NSDictionary *params;
 @end
@@ -59,6 +62,7 @@
         if ([responseObject[@"status"] isEqualToString:@"1"]) {
             NSString *bannerUrl = responseObject[@"list"][@"pic"];
             NSString *erweimaUrl = responseObject[@"list"][@"yqm_url"];
+            yqm_url = erweimaUrl;
             [self.headBannerImg sd_setImageWithURL:[NSURL URLWithString:bannerUrl] placeholderImage:[UIImage imageNamed:@"default"]];
             self.erweimaImg.image = [QRCodeGenerator qrImageForString:erweimaUrl imageSize:self.erweimaImg.bounds.size.width];
         }else if ([responseObject[@"status"] isEqualToString:@"3"]){
@@ -81,15 +85,63 @@
     [self.parentViewController removeFromParentViewController];
 }
 - (IBAction)inviteClick:(id)sender {
+    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
+        self.bottomView.hidden = YES;
+        return;
+    }
     _blackView.hidden = self.bottomView.hidden = NO;
 }
 
 - (IBAction)weixinClick:(id)sender {
     NSLog(@"-----微信好友");
+    
+    [self isShareToPengyouquan:NO];
 }
 
 - (IBAction)pengyouqClick:(id)sender {
     NSLog(@"-----朋友圈");
+    [self isShareToPengyouquan:YES];
+}
+
+-(void)isShareToPengyouquan:(BOOL)isPengyouquan{
+    
+    //缩略图
+    UIImage *image = [UIImage imageNamed:@"share"];
+    WXMediaMessage *message = [WXMediaMessage message];
+    message.title = @"鑫汇行";
+    message.description = @"加入小鑫在线吧";
+    //png图片压缩成data的方法，如果是jpg就要用 UIImageJPEGRepresentation
+    message.thumbData = UIImagePNGRepresentation(image);
+    [message setThumbImage:image];
+    
+    
+    WXWebpageObject *ext = [WXWebpageObject object];
+    ext.webpageUrl = yqm_url;
+    message.mediaObject = ext;
+    message.mediaTagName = @"ISOFTEN_TAG_JUMP_SHOWRANK";
+    
+    SendMessageToWXReq *sentMsg = [[SendMessageToWXReq alloc]init];
+    sentMsg.message = message;
+    sentMsg.bText = NO;
+    if (isPengyouquan) {
+        sentMsg.scene = WXSceneTimeline;
+    }else{
+        sentMsg.scene =  WXSceneSession;
+    }
+    
+    //如果我们想要监听是否成功分享，我们就要去appdelegate里面 找到他的回调方法
+    // -(void) onResp:(BaseResp*)resp .我们可以自定义一个代理方法，然后把分享的结果返回回来。
+    appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    //添加对appdelgate的微信分享的代理
+    appdelegate.wxDelegate = self;
+    BOOL isSuccess = [WXApi sendReq:sentMsg];
+   
+}
+
+#pragma mark 监听微信分享是否成功 delegate
+-(void)shareSuccessByCode:(int)code{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"分享成功" message:[NSString stringWithFormat:@"reason : %d",code] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alert show];
 }
 
 - (IBAction)cancelClick:(id)sender {

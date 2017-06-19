@@ -10,8 +10,11 @@
 #import "UIColor+LhkhColor.h"
 #import "MBProgressHUD+Add.h"
 #import <MessageUI/MessageUI.h>
-
-@interface XHHGongzhengchuViewController ()<UIWebViewDelegate,JSObjectDelegate,MFMessageComposeViewControllerDelegate>
+#import "AppDelegate.h"
+#import "WXApi.h"
+@interface XHHGongzhengchuViewController ()<UIWebViewDelegate,JSObjectDelegate,MFMessageComposeViewControllerDelegate,WXDelegate>{
+    AppDelegate *appdelegate;
+}
 @property (nonatomic,strong)UIWebView *webView;
 @property(nonatomic,strong)JSContext *context;
 @end
@@ -74,8 +77,9 @@
 //短信
 -(void)shareMessage:(NSString *)datas {
     NSLog(@"-------data=%@",datas);
-    NSString *message1 = [datas stringByReplacingOccurrencesOfString:@"{" withString:@""];
-    NSString *message = [message1 stringByReplacingOccurrencesOfString:@"}" withString:@""];
+    NSData *JSONData = [datas dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *datasDic = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableLeaves error:nil];
+    NSString *message = [NSString stringWithFormat:@"%@\n%@\n%@\n%@",datasDic[@"name"],datasDic[@"phone"],datasDic[@"address"],datasDic[@"time"]];
     [self showMessageView:message];
 }
 
@@ -129,7 +133,52 @@
 
 //微信
 -(void)shareWeChat:(NSString *)url{
-    NSLog(@"-------link=%@",url);
+    
+    NSData *JSONData = [url dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *urlDic = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableLeaves error:nil];
+    NSLog(@"-------link=%@=%@",url,urlDic);
+    [self isShareToPengyouquan:NO message:urlDic];
+}
+
+-(void)isShareToPengyouquan:(BOOL)isPengyouquan message:(NSDictionary *)msg{
+    
+    //缩略图
+    UIImage *image = [UIImage imageNamed:@"share"];
+    WXMediaMessage *message = [WXMediaMessage message];
+    message.title = @"鑫汇行";
+    message.description = [NSString stringWithFormat:@"%@\n%@\n%@\n%@",msg[@"name"],msg[@"phone"],msg[@"address"],msg[@"time"]];
+    message.thumbData = UIImagePNGRepresentation(image);
+    [message setThumbImage:image];
+    
+    
+    WXWebpageObject *ext = [WXWebpageObject object];
+    ext.webpageUrl = msg[@"url"];
+    message.mediaObject = ext;
+    message.mediaTagName = @"ISOFTEN_TAG_JUMP_SHOWRANK";
+    
+    SendMessageToWXReq *sentMsg = [[SendMessageToWXReq alloc]init];
+    sentMsg.message = message;
+    sentMsg.bText = NO;
+    //选择发送到会话(WXSceneSession)或者朋友圈(WXSceneTimeline)
+    if (isPengyouquan) {
+        sentMsg.scene = WXSceneTimeline;  //分享到朋友圈
+    }else{
+        sentMsg.scene =  WXSceneSession;  //分享到会话。
+    }
+    
+    //如果我们想要监听是否成功分享，我们就要去appdelegate里面 找到他的回调方法
+    // -(void) onResp:(BaseResp*)resp .我们可以自定义一个代理方法，然后把分享的结果返回回来。
+    appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    //添加对appdelgate的微信分享的代理
+    appdelegate.wxDelegate = self;
+    BOOL isSuccess = [WXApi sendReq:sentMsg];
+    
+}
+
+#pragma mark 监听微信分享是否成功 delegate
+-(void)shareSuccessByCode:(int)code{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"分享成功" message:[NSString stringWithFormat:@"reason : %d",code] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alert show];
 }
 
 - (void)didReceiveMemoryWarning {

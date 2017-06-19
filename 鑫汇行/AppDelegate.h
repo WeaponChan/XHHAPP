@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "LhkhBaseTabBarViewController.h"
 #import "LhkhBaseNavigationViewController.h"
-
+@protocol WXDelegate <NSObject>
+-(void)shareSuccessByCode:(NSString*) codeStr;
+@end
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
@@ -19,6 +21,6 @@
 -(void)openLoginCtrl;
 - (void)openTabHomeCtrl;
 +(AppDelegate *)sharedAppDelegate;
-
+@property (nonatomic, weak) id<WXDelegate> wxDelegate;
 @end
 

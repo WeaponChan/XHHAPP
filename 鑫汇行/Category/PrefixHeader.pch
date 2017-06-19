@@ -11,5 +11,6 @@
 
 #import "Common.h"
 #define XHHBaseUrl  @"http://xinhuibank.dxteng.com"
-
+#define WXAppID @"wx79c839284bb57bcf"
+#define WXappSECRET @"966d2f569b4a5cabe4806e58298676dc"
 #endif /* PrefixHeader_pch */
