@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"鑫汇行手册";
+    self.navigationItem.title = @"鑫汇行用户手册";
 //    _webView = ({
 //        UIWebView *webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-64)];
 //        webView.delegate = self;
@@ -40,7 +40,7 @@
             NSDictionary *dic = [responseObject objectForKey:@"list"];
             NSString *title = [dic objectForKey:@"title"];
             NSString *htmlCode = [dic objectForKey:@"content"];
-//            self.navigationItem.title = title;
+            self.navigationItem.title = title;
             [_webView loadHTMLString:htmlCode baseURL:nil];
         }else{
             [MBProgressHUD show:@"暂无数据" view:self.view];

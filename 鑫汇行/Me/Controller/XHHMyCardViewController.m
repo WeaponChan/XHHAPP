@@ -117,7 +117,8 @@
         }else if ([responseObject[@"status"] isEqualToString:@"3"]){
             [self closeLoadingView];
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
-            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+            [self performSelector:@selector(login) withObject:self afterDelay:2.f];
+            
         }else{
             [self closeLoadingView];
             self.blankView.hidden = NO;
@@ -135,6 +136,10 @@
         [MBProgressHUD show:str view:self.view];
     }];
 
+}
+
+-(void)login{
+    [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
 }
 
 -(void)setblackView{
@@ -625,7 +630,7 @@
             isModifySuc = NO;
             isModify = NO;
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
-            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+            [self performSelector:@selector(login) withObject:self afterDelay:2.f];
         }else{
             [self closeLoadingView];
             userName.enabled = YES;

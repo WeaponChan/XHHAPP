@@ -561,7 +561,8 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
             }
         }else if ([responseObject[@"status"] isEqualToString:@"3"]){
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
-            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+             [self performSelector:@selector(login) withObject:self afterDelay:2.f];
+            
         }else{
             [MBProgressHUD show:@"上传失败，请重新上传" view:self.view];
         }
@@ -571,7 +572,9 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     }];
 }
 
-
+-(void)login{
+    [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+}
 //申请
 -(void)applyAct{
    
@@ -628,8 +631,11 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     applyparams[@"user_name"] = user_name.text;
     applyparams[@"icard"] = icard.text;
     applyparams[@"order_money"] = @(order_money.text.integerValue);
-    applyparams[@"material_name"] = listStr;
-    applyparams[@"material_pic"] = urlStr;
+    if (listStr != nil && urlStr != nil && ![listStr isEqualToString:@""] && ![urlStr isEqualToString:@""]) {
+        applyparams[@"material_name"] = listStr;
+        applyparams[@"material_pic"] = urlStr;
+    }
+    
     applyparams[@"pro_id"] = @(pro_id.integerValue);
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1017&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     NSLog(@"----params=%@",applyparams);
@@ -659,7 +665,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         }else if ([responseObject[@"status"] isEqualToString:@"3"]){
             
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
-            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+            [self performSelector:@selector(login) withObject:self afterDelay:2.f];
         }else{
             [MBProgressHUD show:@"申请失败，请重新申请" view:self.view];
         }

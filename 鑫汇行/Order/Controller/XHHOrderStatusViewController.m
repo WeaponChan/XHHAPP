@@ -104,7 +104,9 @@
         }else if ([responseObject[@"status"] isEqualToString:@"3"]){
             
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
-            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+
+            [self performSelector:@selector(login) withObject:self afterDelay:2.f];
+            
         }else{
             [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
@@ -148,7 +150,8 @@
         }else if ([responseObject[@"status"] isEqualToString:@"3"]){
             
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
-            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+
+            [self performSelector:@selector(login) withObject:self afterDelay:2.f];
         }else{
             NSString *totalnum = responseObject[@"totalnum"];
             if ([totalnum isEqualToString:@"0"] ) {
@@ -164,6 +167,10 @@
         NSLog(@"----%@",str);
         [MBProgressHUD show:str view:self.view];
     }];
+}
+
+-(void)login{
+    [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -203,7 +210,12 @@
         cell.statusLab.text = @"已放款";
         cell.statusLab.textColor = RGBA(143, 249, 71, 1);
         cell.checkImg.hidden = NO;
-        cell.checkImg.image = [UIImage imageNamed:@"chackSuccess"];
+        if (self.type == 0) {
+            cell.checkImg.image = [UIImage imageNamed:@"chackSuccess"];
+        }else{
+            cell.checkImg.hidden = YES;
+        }
+        
         cell.statusBtn.hidden = NO;
         cell.failLab.hidden = YES;
     }else{
@@ -211,7 +223,11 @@
         cell.statusLab.text = @"未通过";
         cell.statusLab.textColor = [UIColor redColor];
         cell.checkImg.hidden = NO;
-        cell.checkImg.image = [UIImage imageNamed:@"chackFail"];
+        if (self.type == 0) {
+            cell.checkImg.image = [UIImage imageNamed:@"chackFail"];
+        }else{
+            cell.checkImg.hidden = YES;
+        }
         cell.statusBtn.hidden = YES;
         cell.failLab.hidden = NO;
         cell.failLab.text = [NSString stringWithFormat:@"未通过的原因:%@",model.refuse_reason];
@@ -273,7 +289,7 @@
         }else if ([responseObject[@"status"] isEqualToString:@"3"]){
             
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
-            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+            [self performSelector:@selector(login) withObject:self afterDelay:2.f];
         }else{
             [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }

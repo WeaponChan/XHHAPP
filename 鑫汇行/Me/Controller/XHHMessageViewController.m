@@ -57,7 +57,8 @@
         }
         else if ([responseObject[@"status"] isEqualToString:@"3"]) {
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
-            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+            [self performSelector:@selector(login) withObject:self afterDelay:2.f];
+            
         }else{
             [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
@@ -66,6 +67,10 @@
         NSString *str = [NSString stringWithFormat:@"%@",error];
         [MBProgressHUD show:str view:self.view];
     }];
+}
+
+-(void)login{
+    [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
 }
 
 -(void)hide{

@@ -496,7 +496,8 @@ UIPickerViewDelegate,UIPickerViewDataSource,UIImagePickerControllerDelegate,UINa
         else if ([responseObject[@"status"] isEqualToString:@"3"]){
             
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
-            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+            [self performSelector:@selector(login) withObject:self afterDelay:2.f];
+            
         }else{
             [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
@@ -505,6 +506,10 @@ UIPickerViewDelegate,UIPickerViewDataSource,UIImagePickerControllerDelegate,UINa
         NSString *str = [NSString stringWithFormat:@"%@",error];
         [MBProgressHUD show:str view:self.view];
     }];
+}
+
+-(void)login{
+    [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
 }
 
 -(void)modifyData:(NSString*)modifyStr modifyInfo:(NSString*)modifyInfo{
@@ -541,7 +546,7 @@ UIPickerViewDelegate,UIPickerViewDataSource,UIImagePickerControllerDelegate,UINa
         }else if ([responseObject[@"status"] isEqualToString:@"3"]){
             
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
-            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+            [self performSelector:@selector(login) withObject:self afterDelay:2.f];
         }else{
             [MBProgressHUD show:@"修改失败，请重新修改" view:self.view];
         }

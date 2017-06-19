@@ -76,7 +76,8 @@
         }
         else if ([responseObject[@"status"] isEqualToString:@"3"]){
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
-            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+            [self performSelector:@selector(login) withObject:self afterDelay:2.f];
+            
         }else{
             [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
@@ -86,6 +87,10 @@
         NSLog(@"----%@",str);
         [MBProgressHUD show:str view:self.view];
     }];
+}
+
+-(void)login{
+    [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
 }
 
 -(void)loadMoreData{
@@ -117,7 +122,7 @@
             [self.tableView reloadData];
         } else if ([responseObject[@"status"] isEqualToString:@"3"]){
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
-            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+            [self performSelector:@selector(login) withObject:self afterDelay:2.f];
         }else{
             NSString *totalnum = responseObject[@"totalnum"];
             if ([totalnum isEqualToString:@"0"] ) {
@@ -290,7 +295,7 @@
         }else if ([responseObject[@"status"] isEqualToString:@"3"]){
             
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
-            [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
+            [self performSelector:@selector(login) withObject:self afterDelay:2.f];
         }else{
             [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
