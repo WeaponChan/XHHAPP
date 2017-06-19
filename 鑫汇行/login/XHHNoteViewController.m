@@ -35,13 +35,15 @@
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1024",XHHBaseUrl];
     [LhkhHttpsManager requestWithURLString:url parameters:nil type:1 success:^(id responseObject) {
         NSLog(@"------>note=%@",responseObject);
-        [self closeLoadingView];
+        
         if ([responseObject[@"status"] isEqualToString:@"1"]) {
             NSDictionary *dic = [responseObject objectForKey:@"list"];
             NSString *title = [dic objectForKey:@"title"];
             NSString *htmlCode = [dic objectForKey:@"content"];
             self.navigationItem.title = title;
-            [_webView loadHTMLString:htmlCode baseURL:nil];
+//            [_webView loadHTMLString:htmlCode baseURL:nil];
+            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:htmlCode]];
+            [self.webView loadRequest:request];
         }else{
             [MBProgressHUD show:@"暂无数据" view:self.view];
         }
@@ -52,6 +54,7 @@
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
+    [self closeLoadingView];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var script = document.createElement('script');"
                                                      "script.type = 'text/javascript';"
