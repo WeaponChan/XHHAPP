@@ -39,6 +39,7 @@
     UITextField *bankName;
     UITextField *yanzhenma;
     UITextField *bankbranch;
+    UIButton *btn;
 }
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,strong)UITableView *banktableView;
@@ -268,7 +269,7 @@
                 view.layer.masksToBounds = YES;
                 view.layer.borderColor = [UIColor grayColor].CGColor;
                 view.layer.borderWidth = 1.f;
-                UIButton *btn = [[UIButton alloc] initWithFrame:CGRectZero];
+                btn = [[UIButton alloc] initWithFrame:CGRectZero];
                 [btn addTarget:self action:@selector(openBank) forControlEvents:UIControlEventTouchUpInside];
                 //▼ ▲
                 [view addSubview:btn];
@@ -568,6 +569,7 @@
 -(void)openBank{
 //    [self setBankView];
 //    [self setPickerView];
+    btn.enabled = NO;
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1020",XHHBaseUrl];
     [LhkhHttpsManager requestWithURLString:url parameters:nil type:1 success:^(id responseObject) {
         NSLog(@"-----bank=%@",responseObject);
@@ -575,6 +577,7 @@
         NSArray *arr = responseObject[@"list"];
         [bankArr addObjectsFromArray:arr];
         [self setPickerView];
+        btn.enabled = YES;
     } failure:^(NSError *error) {
         [self closeLoadingView];
         NSString *str = [NSString stringWithFormat:@"%@",error];

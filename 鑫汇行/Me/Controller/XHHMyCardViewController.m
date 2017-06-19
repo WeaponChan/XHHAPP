@@ -38,7 +38,7 @@
     UITextField *province;
     UITextField *bankbranch;
     NSString *cardid;
-    
+    UIButton *btn;
     BOOL isModify;
     BOOL isModifySuc;
 }
@@ -202,7 +202,7 @@
     view1.layer.masksToBounds = YES;
     view1.layer.borderColor = [UIColor grayColor].CGColor;
     view1.layer.borderWidth = 1.f;
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectZero];
+    btn = [[UIButton alloc] initWithFrame:CGRectZero];
     [btn addTarget:self action:@selector(openBank) forControlEvents:UIControlEventTouchUpInside];
     [view1 addSubview:btn];
     UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -625,7 +625,7 @@
             IDcard.enabled = YES;
             bankcard.enabled = YES;
             bankbranch.enabled = YES;
-            bankName.enabled = YES;
+            bankName.enabled = NO;
             province.enabled = YES;
             isModifySuc = NO;
             isModify = NO;
@@ -637,7 +637,7 @@
             IDcard.enabled = YES;
             bankcard.enabled = YES;
             bankbranch.enabled = YES;
-            bankName.enabled = YES;
+            bankName.enabled = NO;
             province.enabled = YES;
             isModifySuc = NO;
             isModify = NO;
@@ -656,7 +656,7 @@
 -(void)openBank{
     NSLog(@"mmmmmm");
 //    [self setBankView];
-   
+    btn.enabled = NO;
     NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1020",XHHBaseUrl];
     [LhkhHttpsManager requestWithURLString:url parameters:nil type:1 success:^(id responseObject) {
         NSLog(@"-----bank=%@",responseObject);
@@ -664,6 +664,7 @@
         NSArray *arr = responseObject[@"list"];
         [bankArr addObjectsFromArray:arr];
         [self setPickerView];
+        btn.enabled = YES;
     } failure:^(NSError *error) {
         [self closeLoadingView];
         NSString *str = [NSString stringWithFormat:@"%@",error];
