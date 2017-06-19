@@ -79,7 +79,7 @@
             [self performSelector:@selector(login) withObject:self afterDelay:2.f];
             
         }else{
-            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
+//            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
     } failure:^(NSError *error) {
         if (self.params != params) return;
@@ -129,7 +129,7 @@
                 MJRefreshAutoNormalFooter *footer = (MJRefreshAutoNormalFooter *)self.tableView.mj_footer;
                 footer.stateLabel.text = @"没有更多了";
             }
-            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
+//            [MBProgressHUD show:responseObject[@"msg"] view:self.view];
         }
     } failure:^(NSError *error) {
         if (self.params != params) return;
@@ -207,7 +207,7 @@
         cell.statusLab.text = @"已放款";
         cell.statusLab.textColor = RGBA(143, 249, 71, 1);
         cell.checkImg.hidden = NO;
-        cell.checkImg.image = [UIImage imageNamed:@"chackSuccess"];
+        cell.checkImg.hidden = YES;
         cell.statusBtn.hidden = NO;
         cell.failLab.hidden = YES;
     }else{
@@ -215,7 +215,7 @@
         cell.statusLab.text = @"未通过";
         cell.statusLab.textColor = [UIColor redColor];
         cell.checkImg.hidden = NO;
-        cell.checkImg.image = [UIImage imageNamed:@"chackFail"];
+        cell.checkImg.hidden = YES;
         cell.statusBtn.hidden = YES;
         cell.failLab.hidden = NO;
         cell.failLab.text = [NSString stringWithFormat:@"未通过的原因:%@",model.refuse_reason];
