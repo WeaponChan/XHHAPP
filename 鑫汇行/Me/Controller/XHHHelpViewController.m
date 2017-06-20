@@ -99,8 +99,7 @@ static float height;
         openIndex = indexPath.row;
         isOpen = !isOpen;
         if (isOpen == YES) {
-            Hight = height + 80;
-            NSLog(@"----height=%f",Hight);
+            Hight = height + 100;
             cell.jiantouImg.image = [UIImage imageNamed:@"arrow_up_up"];
         }else{
             cell.jiantouImg.image = [UIImage imageNamed:@"arrow_down_down"];

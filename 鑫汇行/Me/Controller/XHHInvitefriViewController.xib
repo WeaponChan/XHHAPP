@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -223,12 +223,11 @@
                 <constraint firstItem="0wb-MG-iD2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="CBe-E9-n75"/>
                 <constraint firstItem="NHf-GL-ozf" firstAttribute="top" secondItem="hCQ-cD-41B" secondAttribute="bottom" constant="10" id="Fqg-Xe-Pjl"/>
                 <constraint firstItem="kuA-PK-qmf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Ke5-wI-iwL"/>
+                <constraint firstItem="hCQ-cD-41B" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="PJ3-pT-OCL"/>
                 <constraint firstAttribute="bottom" secondItem="0wb-MG-iD2" secondAttribute="bottom" id="SzZ-6P-bu3"/>
                 <constraint firstAttribute="trailing" secondItem="NHf-GL-ozf" secondAttribute="trailing" constant="20" id="UCS-f8-ePw"/>
                 <constraint firstItem="NHf-GL-ozf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="YIN-P6-O83"/>
-                <constraint firstAttribute="trailing" secondItem="hCQ-cD-41B" secondAttribute="trailing" constant="88" id="byv-yH-AWz"/>
                 <constraint firstAttribute="trailing" secondItem="0wb-MG-iD2" secondAttribute="trailing" id="dMC-HL-yjG"/>
-                <constraint firstItem="hCQ-cD-41B" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="87" id="dMs-kX-kmm"/>
                 <constraint firstItem="hCQ-cD-41B" firstAttribute="top" secondItem="u1t-ri-bwT" secondAttribute="bottom" constant="20" id="lP5-Jw-OZq"/>
                 <constraint firstItem="yB0-or-oHv" firstAttribute="top" secondItem="NHf-GL-ozf" secondAttribute="bottom" constant="25" id="m0A-9c-dGi"/>
                 <constraint firstAttribute="trailing" secondItem="kuA-PK-qmf" secondAttribute="trailing" id="n60-S3-gH6"/>
