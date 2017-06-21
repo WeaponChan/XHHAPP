@@ -24,7 +24,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="inviteFriend" translatesAutoresizingMaskIntoConstraints="NO" id="kuA-PK-qmf">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kuA-PK-qmf">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="kuA-PK-qmf" secondAttribute="height" multiplier="5:2" id="CZv-9T-eEO"/>
@@ -239,7 +239,6 @@
     <resources>
         <image name="default" width="182" height="183"/>
         <image name="inviteBg" width="394" height="394"/>
-        <image name="inviteFriend" width="750" height="337"/>
         <image name="pengyouquan" width="18" height="18"/>
         <image name="weixin" width="22" height="17"/>
     </resources>

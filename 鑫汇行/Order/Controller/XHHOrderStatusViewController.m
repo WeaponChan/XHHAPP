@@ -198,9 +198,16 @@
     cell.moneyLab.text = [NSString stringWithFormat:@"￥%.1f万",money];
     cell.companyLab.text = model.pro_name;
 //    `status` 订单状态（1:待审核  2：待放款(审核通过) 3：待返点(已放款)  4：已完成(已返点) 5: 未通过(结束)
-    if ([model.status isEqualToString:@"1"] || [model.status isEqualToString:@"2"]) {
+    if ([model.status isEqualToString:@"1"]) {
         cell.statusImg.image = [UIImage imageNamed:@"underway"];
         cell.statusLab.text = @"申请中";
+        cell.statusLab.textColor = RGBA(218, 218, 218, 1);
+        cell.checkImg.hidden = YES;
+        cell.statusBtn.hidden = NO;
+        cell.failLab.hidden = YES;
+    }else if ([model.status isEqualToString:@"2"]){
+        cell.statusImg.image = [UIImage imageNamed:@"underway"];
+        cell.statusLab.text = @"办理中";
         cell.statusLab.textColor = RGBA(218, 218, 218, 1);
         cell.checkImg.hidden = YES;
         cell.statusBtn.hidden = NO;

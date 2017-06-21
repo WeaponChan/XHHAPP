@@ -63,7 +63,7 @@
             NSString *bannerUrl = responseObject[@"list"][@"pic"];
             NSString *erweimaUrl = responseObject[@"list"][@"yqm_url"];
             yqm_url = erweimaUrl;
-            [self.headBannerImg sd_setImageWithURL:[NSURL URLWithString:bannerUrl] placeholderImage:[UIImage imageNamed:@"default"]];
+            [self.headBannerImg sd_setImageWithURL:[NSURL URLWithString:bannerUrl] placeholderImage:[UIImage imageNamed:@""]];
             self.erweimaImg.image = [QRCodeGenerator qrImageForString:erweimaUrl imageSize:self.erweimaImg.bounds.size.width];
         }else if ([responseObject[@"status"] isEqualToString:@"3"]){
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];

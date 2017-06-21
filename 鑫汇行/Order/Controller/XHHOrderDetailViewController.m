@@ -129,8 +129,10 @@
         cell.orderNumLab.text = [NSString stringWithFormat:@"订单编号: %@",self.orderID];
         if ([self.status isEqualToString:@"3"] || [self.status isEqualToString:@"4"]) {
             cell.orderStatus.text = @"已放款";
-        }else if ([self.status isEqualToString:@"1"] || [self.status isEqualToString:@"2"]){
+        }else if ([self.status isEqualToString:@"1"]){
             cell.orderStatus.text = @"申请中";
+        }else if ([self.status isEqualToString:@"2"]){
+            cell.orderStatus.text = @"办理中";
         }else{
             cell.orderStatus.text = @"未通过";
         }
