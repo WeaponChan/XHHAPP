@@ -186,13 +186,8 @@
     
     returnCashLab = [[UILabel alloc] initWithFrame:CGRectZero];
     returnCashLab.font = [UIFont systemFontOfSize:14];
-    NSString *str = @"累计返费  10000000 (元)";
-    NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:str];
-    NSRange rangel = [[textColor string] rangeOfString:[str substringWithRange:NSMakeRange(6, str.length-10)]];
-    [textColor addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:rangel];
-    [textColor addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:rangel];
+    returnCashLab.text  = @"累计返费";
     
-    [returnCashLab setAttributedText:textColor];
     [headview addSubview:returnCashLab];
     
     UIView *aview = [[UIView alloc] initWithFrame:CGRectZero];
