@@ -10,7 +10,8 @@
 #define PrefixHeader_pch
 
 #import "Common.h"
-#define XHHBaseUrl  @"http://xinhuibank.dxteng.com"
+//#define XHHBaseUrl  @"http://xinhuibank.dxteng.com"//测试
+#define XHHBaseUrl  @"http://www.xinhuihang.com"//正式
 #define WXAppID @"wx79c839284bb57bcf"
 #define WXappSECRET @"966d2f569b4a5cabe4806e58298676dc"
 #endif /* PrefixHeader_pch */
