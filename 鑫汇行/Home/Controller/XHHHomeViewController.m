@@ -72,17 +72,18 @@ static int proPage = 0;
                 [self imageUIInit:_imageScrollView];
                 [self addTimer];
             }
-        }else{
-            
-            NSArray *imaArr = @[@"banner1.png",@"banner2.png"];
-            _imageArray = [NSMutableArray array];
-            [_imageArray addObjectsFromArray:imaArr];
-            
-            if (![_imageArray isKindOfClass:[NSNull class]] && _imageArray.count>0) {//防崩溃
-                [self imageUIInit:_imageScrollView];
-                [self addTimer];
-            }
         }
+//        else{
+//            
+//            NSArray *imaArr = @[@"banner1.png",@"banner2.png"];
+//            _imageArray = [NSMutableArray array];
+//            [_imageArray addObjectsFromArray:imaArr];
+//            
+//            if (![_imageArray isKindOfClass:[NSNull class]] && _imageArray.count>0) {//防崩溃
+//                [self imageUIInit:_imageScrollView];
+//                [self addTimer];
+//            }
+//        }
        
         homeProArr = [XHHHomeProModel mj_objectArrayWithKeyValuesArray:responseObject[@"list"][@"product"]];
         if (![homeProArr isKindOfClass:[NSNull class]] && homeProArr.count>0) {

@@ -28,7 +28,11 @@
     _vcsArray = [NSMutableArray array];
     
     [self setTabBarVCs];
-    [self loadMessageNum];
+    NSString *user_id = [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
+    if (user_id != nil && user_id.length > 0 && ![user_id isEqualToString:@""]) {
+        [self loadMessageNum];
+    }
+    
 //    [self removeTabarTopLine];//移除tabbar上面横线
 }
 
