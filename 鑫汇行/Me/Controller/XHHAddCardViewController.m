@@ -40,6 +40,8 @@
     UITextField *yanzhenma;
     UITextField *bankbranch;
     UIButton *btn;
+    NSString *telNum;
+    NSString *worktimeStr;
 }
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,strong)UITableView *banktableView;
@@ -53,11 +55,13 @@
     [super viewDidLoad];
     self.navigationItem.title = @"绑定银行卡";
     self.view.backgroundColor = [UIColor colorWithHexString:UIBgColorStr];
+    
     [self setheadView];
     [self setproView];
     [self setTextview];
     [self setTableView];
     [self setblackView];
+    [self loadBottomData];
     
 }
 
@@ -165,6 +169,24 @@
         make.bottom.mas_equalTo(self.view).offset(0);
     }];
     
+}
+
+-(void)loadBottomData{
+    NSMutableDictionary *params = [NSMutableDictionary  dictionary];
+    params[@"action"] = @(1026);
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1026",XHHBaseUrl];
+    [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
+        NSLog(@"-----Bottom=%@",responseObject);
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            NSDictionary *list = responseObject[@"list"];
+            telNum = list[@"phone"];
+            worktimeStr = list[@"worktime"];
+        }
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        NSString *str = [NSString stringWithFormat:@"%@",error];
+        [MBProgressHUD show:str view:self.view];
+    }];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -428,13 +450,18 @@
                 NSArray *array = [[NSBundle mainBundle]loadNibNamed: CellIdentifier owner:self options:nil];
                 cell = [array objectAtIndex:0];
             }
+            
             cell.sureblock = ^(){
                 NSLog(@"----点击了确定");
                 [self submitClick];
                 
             };
+            [cell.telNum setTitle:telNum forState:UIControlStateNormal];
+            cell.timeLab.text = [NSString stringWithFormat:@"工作日%@",worktimeStr];
             cell.telblock = ^(){
                 NSLog(@"----点击了客服");
+                NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@",telNum]];
+                [[UIApplication sharedApplication] openURL:url];
             };
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;

@@ -21,6 +21,8 @@
 #import "XHHBottomViewModel.h"
 #import "XHHBottomView.h"
 #import "XHHPageControl.h"
+#import "XHHAddCardViewController.h"
+#import "XHHInvitefriViewController.h"
 @interface XHHHomeViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
     UIView *headview;
     UIView *midview;
@@ -115,7 +117,9 @@ static int proPage = 0;
         ccpView.titleArray = titlearr;
         [self.tableView reloadData];
     } failure:^(NSError *error) {
+        [self.tableView.mj_header endRefreshing];
         NSLog(@"-----homeerror=%@",[NSString stringWithFormat:@"%@",error]);
+        
     }];
 
 }
@@ -388,6 +392,9 @@ static int proPage = 0;
 
 - (void)photoTapped:(UITapGestureRecognizer *)tap{
     NSLog(@"----点击了%ld",tap.view.tag);
+    //测试
+//    XHHInvitefriViewController *vc = [XHHInvitefriViewController new];
+//    [self presentViewController:vc animated:NO completion:nil];
 }
 /*
 -(void)leftViewClick{

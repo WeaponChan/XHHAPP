@@ -14,5 +14,7 @@ typedef void (^telBlock)();
 @property (weak, nonatomic) IBOutlet UIView *telView;
 @property (copy,nonatomic)telBlock telblock;
 @property (copy,nonatomic)sureBlock sureblock;
+@property (weak, nonatomic) IBOutlet UIButton *telNum;
+@property (weak, nonatomic) IBOutlet UILabel *timeLab;
 
 @end

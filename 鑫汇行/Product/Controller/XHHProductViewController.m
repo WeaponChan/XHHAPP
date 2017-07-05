@@ -126,6 +126,7 @@ static NSInteger page = 0;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
     XHHProductModel *model = productList[indexPath.row];
     XHHSingleProViewController *vc = [[XHHSingleProViewController alloc]init];
     vc.pro_id = model.pro_id;

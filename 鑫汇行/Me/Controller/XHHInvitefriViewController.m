@@ -56,7 +56,7 @@
     params[@"phone"] = @(user.integerValue);
     params[@"user_id"] = @(user_id.integerValue);
     self.params = params;
-    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1014&key=%@&phone=11377606508",XHHBaseUrl,user_key];
+    NSString *url = [NSString stringWithFormat:@"%@/app.php/WebService?action=1014&key=%@&phone=%@",XHHBaseUrl,user_key,user];
     [LhkhHttpsManager requestWithURLString:url parameters:params type:2 success:^(id responseObject) {
         NSLog(@"-----Invite=%@",responseObject);
         if ([responseObject[@"status"] isEqualToString:@"1"]) {
@@ -89,10 +89,15 @@
     [self.parentViewController removeFromParentViewController];
 }
 - (IBAction)inviteClick:(id)sender {
-    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
-        self.bottomView.hidden = YES;
-        return;
-    }
+
+//    if ([WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi]) {
+//        
+//        _blackView.hidden = self.bottomView.hidden = NO;
+//        
+//    }else{
+//        self.bottomView.hidden = YES;
+//        return;
+//    }
     _blackView.hidden = self.bottomView.hidden = NO;
 }
 
