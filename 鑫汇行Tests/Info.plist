@@ -34,7 +34,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>wechat</string>
-		<string>wexin</string>
+		<string>weixin</string>
 		<string>mqq</string>
 	</array>
 	<key>NSAppTransportSecurity</key>

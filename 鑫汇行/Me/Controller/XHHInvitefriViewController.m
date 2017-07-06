@@ -90,15 +90,15 @@
 }
 - (IBAction)inviteClick:(id)sender {
 
-//    if ([WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi]) {
-//        
-//        _blackView.hidden = self.bottomView.hidden = NO;
-//        
-//    }else{
-//        self.bottomView.hidden = YES;
-//        return;
-//    }
-    _blackView.hidden = self.bottomView.hidden = NO;
+    if ([WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi]) {
+        
+        _blackView.hidden = self.bottomView.hidden = NO;
+        
+    }else{
+        self.bottomView.hidden = YES;
+        return;
+    }
+
 }
 
 - (IBAction)weixinClick:(id)sender {
