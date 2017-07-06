@@ -98,7 +98,7 @@
         self.bottomView.hidden = YES;
         return;
     }
-
+//    _blackView.hidden = self.bottomView.hidden = NO;
 }
 
 - (IBAction)weixinClick:(id)sender {

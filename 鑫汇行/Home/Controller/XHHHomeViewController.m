@@ -392,9 +392,6 @@ static int proPage = 0;
 
 - (void)photoTapped:(UITapGestureRecognizer *)tap{
     NSLog(@"----点击了%ld",tap.view.tag);
-//    //测试
-//    XHHInvitefriViewController *vc = [XHHInvitefriViewController new];
-//    [self presentViewController:vc animated:NO completion:nil];
 }
 /*
 -(void)leftViewClick{
