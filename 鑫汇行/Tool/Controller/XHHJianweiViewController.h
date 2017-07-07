@@ -7,7 +7,13 @@
 //
 
 #import "LhkhBaseViewController.h"
+#import <JavaScriptCore/JavaScriptCore.h>
+@protocol JSObjectDelegate <JSExport>
 
+- (void)shareMessage:(NSString *)datas;
+- (void)shareWeChat:(NSString *)url;
+
+@end
 @interface XHHJianweiViewController : LhkhBaseViewController
 @property (copy ,nonatomic)NSString *url;
 @end
