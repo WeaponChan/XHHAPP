@@ -11,5 +11,5 @@
 @interface XHHSingleProViewController : LhkhBaseViewController
 @property(copy,nonatomic)NSString *pro_id;
 @property(copy,nonatomic)NSString *pro_name;
-
+@property BOOL isshouye;
 @end

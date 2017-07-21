@@ -23,6 +23,7 @@
 #import "XHHPageControl.h"
 #import "XHHAddCardViewController.h"
 #import "XHHInvitefriViewController.h"
+#import "XHHSingleProViewController.h"
 @interface XHHHomeViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
     UIView *headview;
     UIView *midview;
@@ -38,6 +39,7 @@
     NSMutableArray *titlearr;
     CCPScrollView *ccpView;
     float height;
+    NSArray *transArr;
 }
 @property (nonatomic,strong)UITableView *tableView;
 @property (strong,nonatomic)UIScrollView *imageScrollView;
@@ -54,6 +56,7 @@ static int proPage = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     homeProArr = [NSMutableArray array];
+    transArr = [NSArray array];
     [self setTableView];
     [self buildheadView];
     [self buildmidView];
@@ -88,6 +91,7 @@ static int proPage = 0;
 //        }
        
         homeProArr = [XHHHomeProModel mj_objectArrayWithKeyValuesArray:responseObject[@"list"][@"product"]];
+        transArr = responseObject[@"list"][@"product"];
         if (![homeProArr isKindOfClass:[NSNull class]] && homeProArr.count>0) {
             [self imageUIInit:_midViewScrollView];
         }
@@ -109,7 +113,14 @@ static int proPage = 0;
                     break;
                 }
                 NSDictionary *dic = rebateArr[j];
-                NSString *rebate = [NSString stringWithFormat:@"%@%@  赚到返费  %ld元",dic[@"city"],dic[@"phone"],[dic[@"rebate_money"] integerValue]];
+                NSString *rebate = nil;
+                if (dic[@"city"] && ![dic[@"city"] isEqualToString:@""]) {
+                    ccpView.isHaveCity = YES;
+                    rebate = [NSString stringWithFormat:@"%@%@  赚到返费  %ld元",dic[@"city"],dic[@"phone"],[dic[@"rebate_money"] integerValue]];
+                }else{
+                    ccpView.isHaveCity = NO;
+                    rebate = [NSString stringWithFormat:@"%@  赚到返费  %ld元",dic[@"phone"],[dic[@"rebate_money"] integerValue]];
+                }
                 [temptitleArr addObject:rebate];
             }
             [titlearr addObject:temptitleArr];
@@ -333,10 +344,10 @@ static int proPage = 0;
             [imageview sd_setImageWithURL:[NSURL URLWithString:_imageArray[i][@"pic"]] placeholderImage:[UIImage imageNamed:@""]];
             
 //             imageview.contentMode = UIViewContentModeScaleAspectFit;
-            imageview.tag = i;
-            imageview.userInteractionEnabled = YES;
-            UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoTapped:)];
-            [imageview addGestureRecognizer:singleTap];
+//            imageview.tag = i;1
+//            imageview.userInteractionEnabled = YES;
+//            UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoTapped:)];
+//            [imageview addGestureRecognizer:singleTap];
             [_imageScrollView addSubview:imageview];
         }
         
@@ -373,8 +384,11 @@ static int proPage = 0;
             CGSize theSize = [promodel.pro_smalltxt boundingRectWithSize:CGSizeMake(ScreenWidth, 999999.0f) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesDeviceMetrics | NSStringDrawingTruncatesLastVisibleLine attributes:attribute context:nil].size;
             
             height = theSize.height;
-//            NSLog(@"%f",height);
-            
+
+            view.tag = i;
+            view.userInteractionEnabled = YES;
+            UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoTapped:)];
+            [view addGestureRecognizer:singleTap];
             [_midViewScrollView addSubview:view];
         }
         
@@ -392,6 +406,17 @@ static int proPage = 0;
 
 - (void)photoTapped:(UITapGestureRecognizer *)tap{
     NSLog(@"----点击了%ld",tap.view.tag);
+    if (transArr && transArr.count >0) {
+        NSDictionary *dic = transArr[tap.view.tag];
+        NSString *proID = dic[@"id"];
+        NSString *proName = dic[@"pro_name"];
+        NSLog(@"---%@--proID==%@",dic,proID);
+        XHHSingleProViewController *vc = [[XHHSingleProViewController alloc]init];
+        vc.pro_id = proID;
+        vc.pro_name = proName;
+        vc.isshouye = YES;
+        [self transformView:vc];
+    }
 }
 /*
 -(void)leftViewClick{

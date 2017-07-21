@@ -8,13 +8,7 @@
 
 #import <Foundation/Foundation.h>
 typedef NS_ENUM(NSUInteger,HttpRequestType) {
-    /**
-     *  get请求
-     */
     HttpRequestTypeGet = 1,
-    /**
-     *  post请求
-     */
     HttpRequestTypePost = 2
 };
 @interface LhkhHttpsManager : NSObject

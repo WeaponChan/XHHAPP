@@ -51,7 +51,7 @@ typedef void(^clickLabelBlock)(NSInteger index,NSString *titleString);
 /**
  *  label的点击事件
  */
-
+@property BOOL isHaveCity;
 - (void) clickTitleLabel:(clickLabelBlock) clickLabelBlock;
 
 @end

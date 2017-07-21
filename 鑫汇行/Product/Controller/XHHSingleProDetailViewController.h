@@ -10,4 +10,5 @@
 
 @interface XHHSingleProDetailViewController : LhkhBaseViewController
 @property(nonatomic,copy)NSString *url;
+
 @end

@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>6</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>wechat</string>
@@ -40,7 +40,7 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<false/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>http://img4.imgtn.bdimg.com</key>
@@ -66,9 +66,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>是否可以打开您的相机</string>
 	<key>NSLocationAlwaysUseUsageDescription</key>
-	<string></string>
+	<string>App需要您的同意,才能始终访问位置</string>
+	<key>NSLocationUsageDescription</key>
+	<string>App需要您的同意,才能访问位置</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>App需要您的同意,才能在使用期间访问位置</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>是否可以打开您的相册</string>
 	<key>UISupportedInterfaceOrientations</key>

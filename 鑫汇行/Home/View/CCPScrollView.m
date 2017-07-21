@@ -149,8 +149,13 @@
 -(NSAttributedString*)setAttributeStr:(NSString*)str{
     
     NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:str];
+    NSRange rangel;
+    if (self.isHaveCity == YES) {
+         rangel= [[textColor string] rangeOfString:[str substringWithRange:NSMakeRange(20, str.length-20)]];
+    }else{
+         rangel = [[textColor string] rangeOfString:[str substringWithRange:NSMakeRange(18, str.length-18)]];
+    }
     
-    NSRange rangel = [[textColor string] rangeOfString:[str substringWithRange:NSMakeRange(20, str.length-20)]];
     [textColor addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:rangel];
     [textColor addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:rangel];
     

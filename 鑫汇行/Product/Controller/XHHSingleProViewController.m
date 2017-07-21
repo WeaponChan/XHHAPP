@@ -27,11 +27,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"产品";
+    self.navigationItem.title = self.pro_name;
 //    [self loadData];
+    if (self.isshouye == YES) {
+        UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage: [UIImage imageNamed:@"back_more-1"] style:UIBarButtonItemStylePlain target:self action:@selector(hide)];
+        left.imageInsets = UIEdgeInsetsMake(0, 10, 0, 15);
+        self.navigationItem.leftBarButtonItem = left;
+    }
+    
     [self setupChildViewControllers];
     [self setupTitlesView];
     [self setupContentView];
+}
+
+-(void)hide{
+    [self.parentViewController.view removeFromSuperview];
+    [self.parentViewController removeFromParentViewController];
 }
 
 -(void)loadData{
