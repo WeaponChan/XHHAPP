@@ -69,6 +69,11 @@
     }];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self loadData];
+}
+
 -(void)login{
     [(AppDelegate *)[UIApplication sharedApplication].delegate openLoginCtrl];
 }

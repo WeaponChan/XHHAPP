@@ -93,6 +93,7 @@
         NSLog(@"-----order=%@",responseObject);
         [self.tableView.mj_header endRefreshing];
         self.page_num = 0;
+        [_orderList removeAllObjects];
         if ([responseObject[@"status"] isEqualToString:@"1"]) {
             _orderList = [XHHOrderModel mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
             NSString *totalnum = responseObject[@"totalnum"];

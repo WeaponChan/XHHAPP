@@ -60,6 +60,7 @@
 }
 
 -(void)loadData{
+    
     NSMutableDictionary *params = [NSMutableDictionary  dictionary];
     NSString *user_id =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER_ID"];
     NSString *user =  [[NSUserDefaults standardUserDefaults]objectForKey:@"USER"];
@@ -86,6 +87,7 @@
             [returnCashLab setAttributedText:textColor];
             
             [self.tableView reloadData];
+            [self loadMessageNum];
         }else if ([responseObject[@"status"] isEqualToString:@"3"]){
             
             [MBProgressHUD show:@"登录身份已失效，请重新登录" view:self.view];
@@ -345,7 +347,7 @@
             }else if (indexPath.row == 4){
                 cell.titleImg.image = [UIImage imageNamed:@"letter"];
                 cell.titleLab.text = @"站内信";
-                
+                messageLab.hidden = NO;
                 if (![Messagenum isKindOfClass:[NSNull class]] && Messagenum != nil && Messagenum.length>0 && ![Messagenum isEqualToString:@"0"]) {
                     messageLab.hidden = NO;
                     NSString *str =[NSString stringWithFormat:@"%@条未读 ●",Messagenum];
@@ -411,6 +413,8 @@
             [self kefu:str];
         }else if (indexPath.row == 4){
             NSLog(@"----点击了站内信");
+            messageLab.text = @"";
+            messageLab.hidden = YES;
             XHHMessageViewController *vc = [[XHHMessageViewController alloc]init];
             vc.user_id = headerinfoDic[@"id"];
             [self transformView:vc];
