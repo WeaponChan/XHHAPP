@@ -87,7 +87,7 @@
             [navc.rootVcAry addObject:class];
         }   
     }
-
+//    [_vcsArray addObject:vc];
     return navc;
     
 }
